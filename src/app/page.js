@@ -4,16 +4,9 @@ import BackgroundImageSlider from "@/components/BackgroundImageSlider";
 import ProductCard from "@/components/ProductCard";
 import { randomProducts } from "@/mockData/products";
 
-// export async function getServerSideProps() {
-//   // Fetch data on the server side
-//   const response = randomProducts;
-//   const productsArray = response.data;
-
-//   // Pass data to the page via props
-//   return { props: { productsArray } };
-// }
-
-export default function Home({ productsArray }) {
+export default function Home() {
+  const productsArray = randomProducts;
+  console.log("asas");
   // Array of image URLs for the hero section
   const imageUrls = [
     "https://raw.githubusercontent.com/rgap/Ecommerce-G15-ImageRepository/main/images/polos-de-verano-hero.jpg",
@@ -49,7 +42,7 @@ export default function Home({ productsArray }) {
             <div className="my-10 font-semibold text-3xl text-center sm:text-left">
               <span>Polos de Diseño Variado</span>
             </div>
-            {/* {productsArray && productsArray.length > 0 ? (
+            {productsArray && productsArray.length > 0 ? (
               <div className="my-4 grid grid-cols-2 md:grid-cols-4 gap-4">
                 {productsArray.slice(0, 4).map((product) => (
                   <ProductCard key={product.id} product={product} />
@@ -57,7 +50,7 @@ export default function Home({ productsArray }) {
               </div>
             ) : (
               <div className="my-4 text-center">No hay productos aún</div>
-            )} */}
+            )}
           </div>
         </section>
         <section className="flex justify-center">
