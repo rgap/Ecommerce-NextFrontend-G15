@@ -2,11 +2,10 @@ import Image from "next/image";
 
 import BackgroundImageSlider from "@/components/BackgroundImageSlider";
 import ProductCard from "@/components/ProductCard";
-import { randomProducts } from "@/mockData/products";
+import { randomProductsArray } from "@/mockData/products";
 
 export default function Home() {
-  const productsArray = randomProducts;
-  console.log("asas");
+  const productsArray = randomProductsArray.data;
   // Array of image URLs for the hero section
   const imageUrls = [
     "https://raw.githubusercontent.com/rgap/Ecommerce-G15-ImageRepository/main/images/polos-de-verano-hero.jpg",
