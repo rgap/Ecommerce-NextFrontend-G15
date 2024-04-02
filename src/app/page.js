@@ -1,11 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import BackgroundImageSlider from "@/components/BackgroundImageSlider";
 import ProductCard from "@/components/ProductCard";
-import { randomProductsArray } from "@/mockData/products";
+import { randomProducts } from "@/mockData/products";
 
 export default function Home() {
-  const productsArray = randomProductsArray.data;
+  const productsArray = randomProducts.data;
   // Array of image URLs for the hero section
   const imageUrls = [
     "https://raw.githubusercontent.com/rgap/Ecommerce-G15-ImageRepository/main/images/polos-de-verano-hero.jpg",
@@ -25,12 +26,12 @@ export default function Home() {
                 <p className="text-2xl font-semibold md:text-3xl text-center tracking-wide">VERANO 2024</p>
               </div>
             </div>
-            <button
-              // onClick={redirect("/products")}
+            <Link
+              href="/products"
               className="flex items-center justify-center w-[184px] px-4 py-5 text-white text-[16px] font-normal capitalize leading-normal transition-transform duration-100 hover:scale-110 shadow-lg hover:shadow-xl bg-[#3EA381]"
             >
               Ver Productos
-            </button>
+            </Link>
           </div>
         </BackgroundImageSlider>
       </section>

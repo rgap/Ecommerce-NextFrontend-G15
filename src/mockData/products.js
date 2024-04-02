@@ -1,4 +1,4 @@
-export const randomProductsArray = {
+export const randomProducts = {
   data: [
     {
       id: 13,
