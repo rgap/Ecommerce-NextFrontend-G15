@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import BackgroundImageSlider from "@/components/BackgroundImageSlider";
 import ProductCard from "@/components/ProductCard";
+import UserVerificationModal from "@/components/UserVerificationModal";
 import { randomProducts } from "@/mockData/products";
 
 export default function Home() {
@@ -102,21 +103,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* <div className="modal__backdrop" onClick={closeModal}></div>
-          <div className="modal md:w-1/2 lg:w-2/3 max-w-[820px] p-10 sm:p-10">
-            <svg className="modal__close-button" onClick={closeModal} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M18.3 5.71a.996.996 0 00-1.41 0L12 10.59 7.11 5.7A.996.996 0 105.7 7.11L10.59 12 5.7 16.89a.996.996 0 101.41 1.41L12 13.41l4.89 4.89a.996.996 0 101.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z" />
-            </svg>
-
-            <div className="bg-white">
-              <div className="text-center text-3xl font-semibold capitalize mb-8">Verifica tu correo electrónico</div>
-              <div className="text-center text-lg leading-loose">Te hemos enviado un correo electrónico para verificarlo y activar tu cuenta.</div>
-              <div className="text-center text-lg leading-loose mb-8">Revisa tu correo electrónico.</div>
-              <div className="text-center text-lg leading-loose mb-8">El enlace del correo electrónico caducará en 24 horas.</div>
-              <div className="w-6 h-6 left-[24px] top-[24px] absolute"></div>
-            </div>
-          </div> */}
         </section>
 
         <section className="w-fit m-auto relative max-w-[1200px]">
@@ -126,8 +112,8 @@ export default function Home() {
                 className="transform scale-100 hover:scale-[1.05] transition-transform duration-[0.25s]"
                 src="https://raw.githubusercontent.com/rgap/Ecommerce-G15-ImageRepository/main/images/algodon.jpg"
                 alt=""
-                width={500}
-                height={300}
+                height={492}
+                width={1200}
               />
             </div>
           </div>
