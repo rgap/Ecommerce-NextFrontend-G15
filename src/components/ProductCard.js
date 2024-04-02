@@ -1,14 +1,11 @@
 /* eslint-disable react/prop-types */
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 export default function ProductCard({ product, resizingStyle, hideColors }) {
-  const router = useRouter();
-
-  const goToProductDetails = () => {
-    const productPath = `${product.id}/${encodeURIComponent(product.title.replace(/\s+/g, "-"))}`;
-    router.push(`/products/${productPath}`);
-  };
+  // const goToProductDetails = () => {
+  //   const productPath = `${product.id}/${encodeURIComponent(product.title.replace(/\s+/g, "-"))}`;
+  //   router.push(`/products/${productPath}`);
+  // };
 
   const price = product.minimumPrice
     ? new Intl.NumberFormat("es-PE", {
@@ -20,7 +17,7 @@ export default function ProductCard({ product, resizingStyle, hideColors }) {
   return (
     <div
       className="rounded-lg overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl cursor-pointer bg-white"
-      onClick={goToProductDetails}
+      // onClick={goToProductDetails}
     >
       <div className="p-4 bg-white h-full">
         <Image
