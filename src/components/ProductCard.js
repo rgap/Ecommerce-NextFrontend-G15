@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ProductCard({ product, resizingStyle, hideColors }) {
   // const goToProductDetails = () => {
@@ -15,9 +16,11 @@ export default function ProductCard({ product, resizingStyle, hideColors }) {
     : "Not available";
 
   return (
-    <div
+    // href={`/products/${product.id}/${product.slug}`}
+
+    <Link
       className="rounded-lg overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl cursor-pointer bg-white"
-      // onClick={goToProductDetails}
+      href={`/products/${product.slug}`}
     >
       <div className="p-4 bg-white h-full">
         <Image
@@ -59,6 +62,6 @@ export default function ProductCard({ product, resizingStyle, hideColors }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
