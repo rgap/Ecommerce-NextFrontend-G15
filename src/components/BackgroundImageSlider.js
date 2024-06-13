@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 
-function BackgroundImageSlider({ imageUrls, children }) {
+export default function BackgroundImageSlider({ imageUrls, children }) {
   const [imageIndex, setImageIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setImageIndex((currentIndex) => (currentIndex + 1) % imageUrls.length);
+      setImageIndex(currentIndex => (currentIndex + 1) % imageUrls.length);
     }, 4000);
     return () => clearInterval(interval);
   }, [imageUrls.length]);
@@ -23,5 +23,3 @@ function BackgroundImageSlider({ imageUrls, children }) {
     </div>
   );
 }
-
-export default BackgroundImageSlider;

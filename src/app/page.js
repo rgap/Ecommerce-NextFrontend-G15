@@ -4,10 +4,10 @@ import Link from "next/link";
 import BackgroundImageSlider from "@/components/BackgroundImageSlider";
 import ProductCard from "@/components/ProductCard";
 import UserVerificationModal from "@/components/UserVerificationModal";
-import { randomProducts } from "@/mockData/products";
+import { getRandomProducts } from "@/mockData/products";
 
 export default function Home() {
-  const productsArray = randomProducts.data;
+  const productsArray = getRandomProducts();
   // Array of image URLs for the hero section
   const imageUrls = [
     "https://raw.githubusercontent.com/rgap/Ecommerce-G15-ImageRepository/main/images/polos-de-verano-hero.jpg",
@@ -45,7 +45,7 @@ export default function Home() {
             </div>
             {productsArray && productsArray.length > 0 ? (
               <div className="my-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-                {productsArray.slice(0, 4).map((product) => (
+                {productsArray.slice(0, 4).map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>

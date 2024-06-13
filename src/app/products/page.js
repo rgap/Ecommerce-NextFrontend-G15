@@ -1,13 +1,13 @@
 "use client";
 import ProductCard from "@/components/ProductCard";
-import { allProducts } from "@/mockData/products";
+import { getAllProducts } from "@/mockData/products";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 // import { sendGetRequest } from "../../services";
 
-function Products() {
-  const productsArray = allProducts.data;
+const productsArray = getAllProducts();
 
+function Products() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [productsToShow, setProductsToShow] = useState(12);
@@ -20,29 +20,18 @@ function Products() {
     setProductsToShow(productsToShow - 15);
   };
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = event => {
     setSearchTerm(event.target.value);
   };
-
-  // async function initializeProductsArray() {
-  //   const response = await sendGetRequest("products/get-products-plp/all");
-  //   // console.log("response", response);
-  //   setProductsArray(response.data);
-  // }
 
   useEffect(() => {
     if (searchTerm === "") {
       setFilteredProducts(productsArray);
     } else {
-      const results = productsArray.filter((product) => product?.title?.toLowerCase().includes(searchTerm.toLowerCase()));
+      const results = productsArray.filter(product => product?.title?.toLowerCase().includes(searchTerm.toLowerCase()));
       setFilteredProducts(results);
     }
-  }, [searchTerm, productsArray]);
-
-  // useEffect(() => {
-  //   initializeProductsArray();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  }, [searchTerm]);
 
   return (
     <main className="p-4 bg-[--color-bg] flex justify-center">
@@ -75,7 +64,7 @@ function Products() {
 
         <div className="my-4 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-[1100px]">
           {filteredProducts && filteredProducts.slice(0, productsToShow).length > 0 ? (
-            filteredProducts.slice(0, productsToShow).map((product) => <ProductCard key={product.id} product={product} />)
+            filteredProducts.slice(0, productsToShow).map(product => <ProductCard key={product.id} product={product} />)
           ) : (
             <div className="col-span-2 md:col-span-4 text-center">No se encontraron productos</div>
           )}
