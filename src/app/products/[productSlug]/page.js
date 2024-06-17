@@ -1,6 +1,6 @@
-import ImageSlider from "@/components/ImageSlider";
 import ProductActions from "@/components/ProductActions";
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "@/components/products/ProductCard";
+import ProductImageSlider from "@/components/products/ProductImageSlider";
 import RelatedProducts from "@/components/RelatedProducts";
 import { getProductBySlug, getRelatedProducts } from "@/mockData/products";
 import Image from "next/image";
@@ -43,7 +43,7 @@ export default function ProductDetailsPage({ params }) {
           {/* Product details section */}
           <section className="flex flex-col md:flex-row gap-8 items-center">
             <div className="w-full md:w-1/2 lg:w-1/3 mb-4 md:mb-0 ">
-              <ImageSlider product={product} />
+              <ProductImageSlider product={product} />
             </div>
             <div className="w-full md:w-1/2 lg:w-2/3 bg-white shadow-lg p-6 rounded-lg">
               <h1 className="text-2xl font-bold mb-4 text-center md:text-left">{product.title}</h1>

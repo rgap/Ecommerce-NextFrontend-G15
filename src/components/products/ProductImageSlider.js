@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 
-export default function ImageSlider({ product }) {
+export default function ProductImageSlider({ product }) {
   const [mainImage, setMainImage] = useState(product.mainImage);
 
   const renderImageSlider = () => {

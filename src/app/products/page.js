@@ -1,5 +1,5 @@
 "use client";
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "@/components/products/ProductCard";
 import { getAllProducts } from "@/mockData/products";
 import Link from "next/link";
 import { useEffect, useState } from "react";

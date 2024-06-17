@@ -1,4 +1,4 @@
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "@/components/products/ProductCard";
 import { getRelatedProducts } from "@/mockData/products";
 
 export default function RelatedProducts({ product }) {

@@ -1,4 +1,4 @@
-import Footer from "@/components/Footer";
+import Footer from "@/components/common/Footer";
 import Header from "@/components/Header";
 import { Montserrat } from "next/font/google";
 import Head from "next/head";
