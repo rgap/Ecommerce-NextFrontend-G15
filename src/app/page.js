@@ -3,7 +3,6 @@ import Link from "next/link";
 
 import BackgroundImageSlider from "@/components/BackgroundImageSlider";
 import ProductCard from "@/components/products/ProductCard";
-import UserVerificationModal from "@/components/UserVerificationModal";
 import { getRandomProducts } from "@/mockData/products";
 
 export default function Home() {
