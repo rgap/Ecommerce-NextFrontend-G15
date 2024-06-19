@@ -8,7 +8,7 @@ export default function DropDownCart() {
   const navigate = useNavigate();
 
   function redirect(route) {
-    return (event) => {
+    return event => {
       event.preventDefault();
       navigate(route);
       setIsDropdownOpen(false);
@@ -27,7 +27,7 @@ export default function DropDownCart() {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
