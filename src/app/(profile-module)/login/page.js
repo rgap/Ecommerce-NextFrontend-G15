@@ -6,11 +6,12 @@ import TextField from "@/components/TextField";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 // import { sendPostRequest } from "../../services";
+import getLoginResult from "@/mockData/products/getLoginResult";
 import { inputs } from "./form";
 
 export default function Login() {
   const router = useRouter();
-  const { user, saveUser, logOutUser } = useUserStore();
+  const { saveUser } = useUserStore();
 
   const [values, setValues] = useState({
     email: "",
@@ -71,8 +72,11 @@ export default function Login() {
   };
 
   const handleFormSubmit = async event => {
+    event.preventDefault();
     if (validateForm()) {
-      const response = await sendPostRequest(values, "users/login");
+      // const response = await sendPostRequest(values, "users/login");
+      const response = getLoginResult();
+      console.log(response);
 
       if (response.ok) {
         // login successful

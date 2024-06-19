@@ -112,7 +112,7 @@ export default function Footer() {
           width={16}
           height={16}
         />
-        <p className="">2023 Beautipol</p>
+        <p className="">2024 Beautipol</p>
       </div>
     </footer>
   );
