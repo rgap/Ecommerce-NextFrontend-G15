@@ -1,11 +1,15 @@
 "use client";
+import { useCartStore } from "@/store/useCartStore";
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ProductActions({ product }) {
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [availableStock, setAvailableStock] = useState(0);
   const [currentPrice, setCurrentPrice] = useState("");
+  const addToCart = useCartStore(state => state.addToCart);
 
   useEffect(() => {
     if (product) {
@@ -49,17 +53,37 @@ export default function ProductActions({ product }) {
     ));
 
   const handleAddToCart = () => {
-    console.log(handleAddToCart);
-    // onAddToCart({
-    //   color: selectedColor,
-    //   id: `${product.id}.${selectedSize}.${selectedColor}`,
-    //   title: product.title,
-    //   price: currentPrice,
-    //   quantity: 1,
-    //   size: selectedSize,
-    //   url: product.mainImage,
-    //   // productPath: location.pathname,
-    // });
+    addToCart({
+      color: selectedColor,
+      id: `${product.id}.${selectedSize}.${selectedColor}`,
+      title: product.title,
+      price: currentPrice,
+      quantity: 1,
+      size: selectedSize,
+      url: product.mainImage,
+      productPath: location.pathname,
+    });
+
+    toast(
+      <>
+        <strong>{product.title}</strong> fue agregado al carrito de compras
+      </>,
+      {
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        style: customToastStyle,
+      }
+    );
+  };
+
+  const customToastStyle = {
+    backgroundColor: `var(--color-link-text)`,
+    color: "white",
   };
 
   function formatPrice(price) {
@@ -71,6 +95,7 @@ export default function ProductActions({ product }) {
 
   return (
     <>
+      <ToastContainer position="top-left" />
       <div className="mb-4 p-4 bg-gray-100 rounded-md">
         <strong>Precio:</strong> {formatPrice(currentPrice)}
       </div>

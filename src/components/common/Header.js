@@ -1,5 +1,7 @@
 "use client";
 
+import { useCartStore } from "@/store/useCartStore";
+import { useUserStore } from "@/store/useUserStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -7,9 +9,10 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Header() {
   const router = useRouter();
-  const globalUser = "r.guzmanap@gmail.com";
-  const globalCart = 0;
-  const total = 0;
+  // const globalUser = "r.guzmanap@gmail.com";
+  const globalUser = useUserStore(state => state.user);
+  const globalCart = useCartStore(state => state.cart);
+  const [total, setTotal] = useState(0);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -26,6 +29,14 @@ export default function Header() {
       setIsDropdownOpen(!isDropdownOpen);
     }
   };
+
+  useEffect(() => {
+    setTotal(
+      globalCart.reduce((accumulator, product) => {
+        return accumulator + product.quantity;
+      }, 0)
+    );
+  }, [globalCart]);
 
   useEffect(() => {
     const handleClickOutside = event => {
@@ -57,6 +68,7 @@ export default function Header() {
               alt=""
               width={200}
               height={70}
+              priority={true}
             />
           </Link>
         </div>

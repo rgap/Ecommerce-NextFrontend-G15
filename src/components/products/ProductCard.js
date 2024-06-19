@@ -29,6 +29,7 @@ export default function ProductCard({ product, resizingStyle, hideColors }) {
           className="w-full h-auto mb-3 transition-transform duration-300 hover:scale-110" // Tailwind classes for transition and hover effect
           width={500}
           height={300}
+          priority={true}
         />
 
         <div className="flex flex-col items-center">

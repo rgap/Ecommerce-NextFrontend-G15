@@ -7,7 +7,7 @@ export default function Footer() {
   const [subscriptionEmailSubmitted, setSubscriptionEmailSubmitted] = useState(false);
 
   const handleSubscriptionSubmit = event => {
-    event.preventDefault();
+    // event.preventDefault();
     setSubscriptionEmailSubmitted(true);
   };
 
