@@ -1,20 +1,24 @@
+// CartComponent.js
 "use client";
 import { ProductShoppingCart, QuantityButton } from "@/components/cart";
 import { Button, Logo } from "@/components/common";
 import { useCartStore } from "@/store/useCartStore";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
-export default function Cart() {
+export default function CartComponent() {
   const globalCart = useCartStore(state => state.cart);
   const router = useRouter();
-  const total = globalCart.reduce((accumulator, product) => {
-    const subtotal = product.quantity * product.price;
-    return accumulator + subtotal;
-  }, 0);
-
-  const totalCart = total.toFixed(2);
+  const [total, setTotal] = useState(0);
   const [lastProductPath, setLastProductPath] = useState("/products");
+
+  useEffect(() => {
+    const newTotal = globalCart.reduce((accumulator, product) => {
+      const subtotal = product.quantity * product.price;
+      return accumulator + subtotal;
+    }, 0);
+    setTotal(newTotal);
+  }, [globalCart]);
 
   useEffect(() => {
     if (globalCart.length > 0) {
@@ -36,6 +40,8 @@ export default function Cart() {
     };
   }
 
+  const totalCart = total.toFixed(2);
+
   return (
     <main className="bg-white">
       <Logo />
@@ -45,7 +51,7 @@ export default function Cart() {
             <nav aria-label="breadcrumb flex">
               <ol className="flex text-xl justify-center md:justify-start mt-3 mb-8">
                 <li className="mr-2">
-                  <a onClick={redirect("/products")} className="text-[--color-link-text] hover:underline font-semibold cursor-pointer">
+                  <a onClick={redirect("/products")} className="text-[--color-link-text] hover:underline font-semibold	cursor-pointer">
                     Productos
                   </a>
                 </li>
@@ -55,19 +61,19 @@ export default function Cart() {
             </nav>
 
             <div className="md:mb-16 flex justify-center items-center">
-              <p className="text-xl md:text-[30px] font-semibold max-md:hidden">Carrito de Compras</p>
+              <p className="text-xl md:text-[30px] font-semibold max-md:hidden ">Carrito de Compras</p>
             </div>
 
-            <div className="mb-2 text-xl font-semibold grid md:gap-5 md:grid-cols-[350px_90px_90px_90px] lg:grid-cols-[400px_100px_100px_100px] xl:grid-cols-[400px_200px_200px_200px]">
-              <div className="max-md:text-center">Carrito de Compras</div>
-              <div className="max-md:hidden text-center">Precio</div>
-              <div className="max-md:hidden text-center">Cantidad</div>
-              <div className="max-md:hidden text-center">Total</div>
+            <div className="mb-2 text-xl font-semibold grid md:gap-5 md:grid-cols-[350px_90px_90px_90px] lg:grid-cols-[400px_100px_100px_100px] xl:grid-cols-[400px_200px_200px_200px] ">
+              <div className="max-md:text-center "> Carrito de Compras</div>
+              <div className="max-md:hidden  text-center ">Precio</div>
+              <div className="max-md:hidden text-center ">Cantidad</div>
+              <div className="max-md:hidden  text-center">Total</div>
             </div>
 
             <hr className="mb-2 h-0.5 bg-[--color-hr]" />
 
-            <div className="max-md:justify-center grid grid-cols-[340px] gap-2 md:gap-5 md:grid-cols-[350px_90px_90px_90px] lg:grid-cols-[400px_100px_100px_100px] xl:grid-cols-[400px_200px_200px_200px]">
+            <div className="max-md:justify-center grid grid-cols-[340px] gap-2  md:gap-5 md:grid-cols-[350px_90px_90px_90px] lg:grid-cols-[400px_100px_100px_100px] xl:grid-cols-[400px_200px_200px_200px] ">
               {globalCart.map(product => (
                 <React.Fragment key={product.id}>
                   <ProductShoppingCart
@@ -80,8 +86,8 @@ export default function Cart() {
                     productQuantity={product.quantity}
                     product={product}
                   />
-                  <div className="max-md:hidden text-lg flex justify-center items-center">S/ {product.price}</div>
-                  <div className="flex justify-center items-center">
+                  <div className="max-md:hidden text-lg  flex justify-center items-center  ">S/ {product.price}</div>
+                  <div className=" flex justify-center items-center">
                     <QuantityButton productId={product.id} productQuantity={product.quantity} product={product} className={"max-md:hidden"} />
                   </div>
                   <div className="max-md:hidden text-lg flex justify-center items-center">S/. {(product.price * product.quantity).toFixed(2)}</div>

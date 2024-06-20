@@ -1,5 +1,5 @@
 "use client";
-import TextField from "@/components/TextField";
+import TextField from "@/components/common/TextField";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 // import { sendGetRequest, sendPutRequest } from "../../services";

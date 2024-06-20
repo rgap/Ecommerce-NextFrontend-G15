@@ -1,5 +1,3 @@
-import Footer from "@/components/common/Footer";
-import Header from "@/components/common/Header";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 
@@ -19,11 +17,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>
-        <Header />
-        {children}
-        <Footer />
-      </body>
+      <body className={montserrat.className}>{children}</body>
     </html>
   );
 }
