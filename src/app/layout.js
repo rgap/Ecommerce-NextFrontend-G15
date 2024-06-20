@@ -11,6 +11,9 @@ export const metadata = {
     "Beautipol ofrece una amplia selección de ropa minimalista, portátil y versátil para personas con un estilo de vida minimalista. Encuentra prendas ligeras y adecuadas para diferentes escenarios, desde lo casual hasta viajes. Simplifica tu guardarropa.",
   keywords:
     "ropa minimalista, moda versátil, prendas portátiles, estilo de vida minimalista, compras en línea, moda online, estilo uniforme, simplifica tu guardarropa, moda para viajes, ropa ligera, vestimenta para diferentes escenarios, compra eficiente, estilo casual, moda de oficina, webapp de moda minimalista",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }) {
