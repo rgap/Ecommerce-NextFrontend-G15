@@ -1,5 +1,5 @@
 "use client";
-import verifyEmailToken from "@/mockData/products/verifyEmailToken";
+import { verifyEmailToken } from "@/mockData";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";

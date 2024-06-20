@@ -4,7 +4,7 @@ import EditableField from "@/components/EditableField";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 // import { sendPostRequest, sendPutRequest } from "../../services";
-import getUserByEmail from "@/mockData/products/getUserByEmail";
+import { getUserByEmail } from "@/mockData";
 import { useUserStore } from "@/store/useUserStore";
 import { inputsAccount } from "./form";
 

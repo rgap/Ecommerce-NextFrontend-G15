@@ -1,5 +1,5 @@
 import ProductCard from "@/components/products/ProductCard";
-import { getRelatedProducts } from "@/mockData/products";
+import { getRelatedProducts } from "@/mockData";
 
 export default function RelatedProducts({ product }) {
   const relatedProducts = getRelatedProducts(product.title, product.id, 4);

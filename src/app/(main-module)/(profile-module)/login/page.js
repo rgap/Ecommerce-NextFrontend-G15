@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 // import { sendPostRequest } from "../../services";
-import getLoginResult from "@/mockData/products/getLoginResult";
+import { getLoginResult } from "@/mockData";
 import { inputs } from "./form";
 
 export default function Login() {

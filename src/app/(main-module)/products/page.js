@@ -1,6 +1,6 @@
 "use client";
 import ProductCard from "@/components/products/ProductCard";
-import { getAllProducts } from "@/mockData/products";
+import { getAllProducts } from "@/mockData";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 // import { sendGetRequest } from "../../services";

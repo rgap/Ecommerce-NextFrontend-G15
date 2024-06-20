@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const HeroSection = () => {
+function HeroSection() {
   return (
     <section className="flex justify-center">
       <div className="bg-e7dfd5 text-center px-0 md:px-16 pb-12">
@@ -13,10 +13,10 @@ const HeroSection = () => {
       </div>
     </section>
   );
-};
+}
 
 // Características de los Polos
-const ProductFeatures = () => {
+function ProductFeatures() {
   return (
     <section className="flex justify-center">
       <section className="flex flex-col justify-center">
@@ -81,10 +81,10 @@ const ProductFeatures = () => {
       </section>
     </section>
   );
-};
+}
 
 // Formulario y CTA
-const EmailSignupForm = () => {
+function EmailSignupForm() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -186,9 +186,9 @@ const EmailSignupForm = () => {
       </div>
     </section>
   );
-};
+}
 
-const Footer = () => {
+function Footer() {
   return (
     <footer className="pt-5 pb-5">
       <section className="flex flex-row justify-center">
@@ -234,10 +234,10 @@ const Footer = () => {
       </section>
     </footer>
   );
-};
+}
 
 // Componente Principal
-const News = () => {
+export default function News() {
   const router = useRouter();
 
   function redirect(route) {
@@ -271,6 +271,4 @@ const News = () => {
       <Footer />
     </>
   );
-};
-
-export default News;
+}

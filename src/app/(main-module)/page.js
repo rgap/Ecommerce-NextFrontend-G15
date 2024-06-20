@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import BackgroundImageSlider from "@/components/BackgroundImageSlider";
 import ProductCard from "@/components/products/ProductCard";
-import { getRandomProducts } from "@/mockData/products";
+import { getRandomProducts } from "@/mockData";
 
 export default function Home() {
   const productsArray = getRandomProducts();

@@ -3,7 +3,7 @@ import TextField from "@/components/common/TextField";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 // import { sendGetRequest, sendPutRequest } from "../../services";
-import { getUserByEmail } from "@/mockData/products";
+import { getUserByEmail } from "@/mockData";
 import Image from "next/image";
 import { inputsPasswordReset } from "./formPasswordReset";
 import { inputsReset } from "./formReset";

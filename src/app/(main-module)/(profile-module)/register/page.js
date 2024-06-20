@@ -5,7 +5,7 @@ import { useUserStore } from "@/store/useUserStore"; // Import the Zustand store
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 // import { sendPostRequest } from "../../services";
-import checkIfEmailExists from "@/mockData/products/checkIfEmailExists";
+import { checkIfEmailExists } from "@/mockData";
 import Image from "next/image";
 import Link from "next/link";
 import { inputs } from "./form";

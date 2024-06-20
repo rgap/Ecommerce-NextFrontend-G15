@@ -2,7 +2,7 @@ import ProductActions from "@/components/products/ProductActions";
 import ProductCard from "@/components/products/ProductCard";
 import ProductImageSlider from "@/components/products/ProductImageSlider";
 import RelatedProducts from "@/components/products/RelatedProducts";
-import { getProductBySlug, getRelatedProducts } from "@/mockData/products";
+import { getProductBySlug, getRelatedProducts } from "@/mockData";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
