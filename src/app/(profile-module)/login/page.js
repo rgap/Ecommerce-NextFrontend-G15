@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 // import { GoogleLoginButton, TextField } from "@/components/GoogleLoginButton";
 import TextField from "@/components/TextField";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 // import { sendPostRequest } from "../../services";
 import getLoginResult from "@/mockData/products/getLoginResult";
@@ -23,18 +24,12 @@ export default function Login() {
     password: "",
   });
 
-  const handleBackClick = () => {
-    // router.back();
-    router.push("/");
-  };
-
-  const handleRegisterClick = () => {
-    router.push("/register");
-  };
-
-  const handleResetClick = () => {
-    router.push("/reset-password");
-  };
+  // function redirect(route) {
+  //   return event => {
+  //     event.preventDefault();
+  //     router.push(route);
+  //   };
+  // }
 
   const handleInputChange = event => {
     setValues({
@@ -114,7 +109,7 @@ export default function Login() {
   return (
     <main className="bg-white h-full flex justify-center items-center p-5">
       <div className="bg-white p-6 w-full max-w-[420px] md:min-w-[380px]">
-        <a className="mb-14 flex items-center cursor-pointer" onClick={handleBackClick}>
+        <a href="/" className="mb-14 flex items-center cursor-pointer">
           <Image
             className="w-5"
             src="https://raw.githubusercontent.com/rgap/Ecommerce-G15-ImageRepository/main/icons/arrow_back.svg"
@@ -142,25 +137,26 @@ export default function Login() {
           ))}
 
           <div className="h-10 mb-2">
-            <a onClick={handleResetClick} className="text-base capitalize cursor-pointer">
+            <Link href="/reset-password" className="text-base capitalize cursor-pointer">
               ¿Olvidaste tu contraseña?
-            </a>
+            </Link>
           </div>
 
           <button className="w-full flex mb-6 mt-2 items-center justify-center px-4 py-4 bg-[--color-cart-text-button-comp] hover:bg-[--color-cart-text-button-comp-hover] text-white text-sm capitalize leading-normal transition-transform duration-100 ">
             Ingresar
           </button>
-
+          {/* 
           <div className="flex flex-col items-center justify-center text-xs mb-6 text-center gap-6">
             <p>o entra con tu cuenta gmail</p>
-            {/* <GoogleLoginButton onUserLogin={handleGoogleLoginOrRegister} /> */}
+            <GoogleLoginButton onUserLogin={handleGoogleLoginOrRegister} /> 
           </div>
+          */}
 
           <div className="text-center">
             <span className="text-neutral-950 text-base">¿Eres nuevo? </span>
-            <a onClick={handleRegisterClick} className="text-base underline cursor-pointer">
+            <Link href="/register" className="text-base underline cursor-pointer">
               Crea una cuenta
-            </a>
+            </Link>
           </div>
         </form>
       </div>
