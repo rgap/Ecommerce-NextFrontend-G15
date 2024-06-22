@@ -1,22 +1,18 @@
+// CartPayment.js
 "use client";
 import { Breadcrumb } from "@/components/cart";
 import { Logo } from "@/components/common";
+import { getUserByEmail } from "@/mockData";
+import createMercadoPagoOrder from "@/mockData/createMercadoPagoOrder";
 import { basicSchema } from "@/schemas/basicSchema";
 import { useCartStore } from "@/store/useCartStore";
 import { useUserStore } from "@/store/useUserStore";
-import { CardPayment, initMercadoPago } from "@mercadopago/sdk-react";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-// import { sendPostRequest } from "../../services";
-import { getUserByEmail } from "@/mockData";
-import createMercadoPagoOrder from "@/mockData/createMercadoPagoOrder";
+import CardPaymentComponent from "./CardPaymentComponent"; // Correctly import the component
 import { inputs } from "./form";
-
-initMercadoPago(process.env.NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY, {
-  locale: "es-PE",
-});
 
 export default function CartPayment() {
   const debugMode = true;
@@ -26,6 +22,7 @@ export default function CartPayment() {
   const globalUser = useUserStore(state => state.user);
   const globalCart = useCartStore(state => state.cart);
   const [showCardPayment, setShowCardPayment] = useState(false);
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
   // Calculate total amount
   const totalAmount = globalCart.reduce((sum, product) => {
@@ -93,6 +90,29 @@ export default function CartPayment() {
     }
   }, [userDetails, globalUser, totalAmount]);
 
+  useEffect(() => {
+    if (!globalUser && initialLoadComplete) {
+      router.push("/login");
+    } else {
+      setInitialLoadComplete(true);
+    }
+  }, [globalUser, router, initialLoadComplete]);
+
+  const handleCheckBoxChange = () => {
+    setCheckbox(!checkbox);
+    if (!checkbox) {
+      setValues(userDetails);
+    } else {
+      setValues({
+        name: "",
+        address: "",
+        city: "",
+        region: "",
+        phoneNumber: "",
+      });
+    }
+  };
+
   async function handleOnSubmitMercadoPago(formData) {
     const bodyOrder = {
       paymentDate: new Date(),
@@ -136,27 +156,6 @@ export default function CartPayment() {
       window.location.reload();
     }
   }
-
-  const handleCheckBoxChange = () => {
-    setCheckbox(!checkbox);
-    if (!checkbox) {
-      setValues(userDetails);
-    } else {
-      setValues({
-        name: "",
-        address: "",
-        city: "",
-        region: "",
-        phoneNumber: "",
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (!globalUser) {
-      router.push("/login");
-    }
-  }, [globalUser, router]);
 
   function redirect(route) {
     return event => {
@@ -237,15 +236,10 @@ export default function CartPayment() {
         <section className="lg:w-[50%] flex flex-col justify-start items-start px-5 pt-5 mb-12 md:px-10 ">
           <button onClick={redirect("/cart-payment")} className="mb-5"></button>
           {showCardPayment && (
-            <CardPayment
-              key="card-payment"
-              onSubmit={handleOnSubmitMercadoPago}
-              initialization={{
-                amount: totalAmount,
-                payer: {
-                  email: globalUser.email,
-                },
-              }}
+            <CardPaymentComponent
+              totalAmount={totalAmount}
+              globalUser={globalUser}
+              handleOnSubmitMercadoPago={handleOnSubmitMercadoPago}
               customization={customization}
             />
           )}

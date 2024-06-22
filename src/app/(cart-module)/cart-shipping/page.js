@@ -13,6 +13,7 @@ export default function CartShipping() {
   const globalUser = useUserStore(state => state.user);
   const [selectedValue, setSelectedValue] = useState("regular");
   const [costoEnvio, setCostoEnvio] = useState("0.00");
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
   const total = globalCart.reduce((accumulator, product) => {
     const qty = product.quantity;
@@ -32,10 +33,10 @@ export default function CartShipping() {
   const [lastProductPath, setLastProductPath] = useState("/products");
 
   useEffect(() => {
-    if (!globalUser) {
+    if (!globalUser && initialLoadComplete) {
       router.push("/login");
     }
-  }, [globalUser, router]);
+  }, [globalUser, router, initialLoadComplete]);
 
   useEffect(() => {
     if (globalCart.length > 0) {
@@ -45,10 +46,15 @@ export default function CartShipping() {
   }, [globalCart]);
 
   useEffect(() => {
+    if (!initialLoadComplete) {
+      setInitialLoadComplete(true);
+      return;
+    }
+
     if (total === 0) {
       router.replace(lastProductPath);
     }
-  }, [lastProductPath, router, total]);
+  }, [lastProductPath, router, total, initialLoadComplete]);
 
   useEffect(() => {
     let savedShippingOption = localStorage.getItem("shippingOption");

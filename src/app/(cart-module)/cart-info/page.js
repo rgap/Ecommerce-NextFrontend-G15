@@ -2,6 +2,7 @@
 import { Breadcrumb, ProductShoppingCart } from "@/components/cart";
 import { Button } from "@/components/common";
 import Logo from "@/components/common/Logo";
+import { getUserByEmail } from "@/mockData";
 import { basicSchema } from "@/schemas/basicSchema";
 import { useCartStore } from "@/store/useCartStore";
 import { useUserStore } from "@/store/useUserStore";
@@ -9,8 +10,6 @@ import { useFormik } from "formik";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-// import { sendPostRequest, sendPutRequest } from "../../services";
-import { getUserByEmail } from "@/mockData";
 import { inputs } from "./form";
 
 export default function CartInfo() {
@@ -25,6 +24,7 @@ export default function CartInfo() {
 
   const totalCart = total.toFixed(2);
   const [lastProductPath, setLastProductPath] = useState("/products");
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
   // Debug mode variable
   const debugMode = true;
@@ -37,10 +37,15 @@ export default function CartInfo() {
   }, [globalCart]);
 
   useEffect(() => {
+    if (!initialLoadComplete) {
+      setInitialLoadComplete(true);
+      return;
+    }
+
     if (total === 0) {
       router.replace(lastProductPath);
     }
-  }, [lastProductPath, router, total]);
+  }, [lastProductPath, router, total, initialLoadComplete]);
 
   const onSubmit = async (values, actions) => {
     // await sendPutRequest(personalData.id, values, "users");
@@ -200,7 +205,7 @@ export default function CartInfo() {
             <p className="text-md text-center">(*) El importe total que pagará sera calculado en la sección de Envío.</p>
           </div>
         </div>
-      </section>{" "}
+      </section>
     </main>
   );
 }

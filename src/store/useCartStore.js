@@ -1,3 +1,4 @@
+// src/store/useCartStore.js
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 

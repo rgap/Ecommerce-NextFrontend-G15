@@ -15,6 +15,7 @@ export default function Cart() {
 
   const totalCart = total.toFixed(2);
   const [lastProductPath, setLastProductPath] = useState("/products");
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
   useEffect(() => {
     if (globalCart.length > 0) {
@@ -24,10 +25,15 @@ export default function Cart() {
   }, [globalCart]);
 
   useEffect(() => {
+    if (!initialLoadComplete) {
+      setInitialLoadComplete(true);
+      return;
+    }
+
     if (total === 0) {
       router.replace(lastProductPath);
     }
-  }, [lastProductPath, router, total]);
+  }, [lastProductPath, router, total, initialLoadComplete]);
 
   function redirect(route) {
     return event => {
