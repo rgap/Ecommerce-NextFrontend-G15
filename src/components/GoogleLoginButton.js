@@ -13,7 +13,8 @@ export default function GoogleLoginButton({ onUserLogin }) {
 
     script.onload = () => {
       window.google.accounts.id.initialize({
-        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID, // Replace with your client ID
+        // process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
+        client_id: import.meta.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID, // Replace with your client ID
         callback: response => onUserLogin(response.credential),
       });
 

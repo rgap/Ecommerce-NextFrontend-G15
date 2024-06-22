@@ -16,13 +16,6 @@ export default function ProductDetailsPage({ params }) {
     notFound();
   }
 
-  // Get related products
-  const relatedProducts = getRelatedProducts(product.id, product.title, 4);
-
-  const handleAddToCart = () => {
-    console.log("handleAddToCart");
-  };
-
   return (
     <>
       <main className="py-8 px-4  md:px-8 bg-[--color-bg] flex justify-center">

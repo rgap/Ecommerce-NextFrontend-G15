@@ -71,7 +71,7 @@ export default function Login() {
     if (validateForm()) {
       // const response = await sendPostRequest(values, "users/login");
       const response = getLoginResult();
-      console.log(response);
+      // console.log(response);
 
       if (response.ok) {
         // login successful

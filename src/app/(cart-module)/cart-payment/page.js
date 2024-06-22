@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 // import { sendPostRequest } from "../../services";
 import { getUserByEmail } from "@/mockData";
+import createMercadoPagoOrder from "@/mockData/createMercadoPagoOrder";
 import { inputs } from "./form";
 
 initMercadoPago(process.env.NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY, {
@@ -18,12 +19,13 @@ initMercadoPago(process.env.NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY, {
 });
 
 export default function CartPayment() {
-  const debug = false;
+  const debugMode = true;
   const router = useRouter();
   const [checkbox, setCheckbox] = useState(true);
   const [userDetails, setUserDetails] = useState({});
   const globalUser = useUserStore(state => state.user);
   const globalCart = useCartStore(state => state.cart);
+  const [showCardPayment, setShowCardPayment] = useState(false);
 
   // Calculate total amount
   const totalAmount = globalCart.reduce((sum, product) => {
@@ -37,13 +39,6 @@ export default function CartPayment() {
   const getShippingCost = option => shippingCosts[option] || "0.00";
   const savedShippingOption = typeof window !== "undefined" ? localStorage.getItem("shippingOption") : "regular";
   const totalShipping = getShippingCost(savedShippingOption);
-
-  const initialization = {
-    amount: totalAmount,
-    payer: {
-      email: globalUser.email,
-    },
-  };
 
   const customization = {
     paymentMethods: {
@@ -65,14 +60,13 @@ export default function CartPayment() {
       region: "",
       phoneNumber: "",
     },
-    validationSchema: debug ? undefined : basicSchema,
+    validationSchema: debugMode ? undefined : basicSchema,
   });
 
   useEffect(() => {
     const fetchUserParams = async () => {
       try {
         const foundUser = getUserByEmail();
-        // const response = await sendPostRequest({ email: globalUser.email }, "users/get-by-email");
         const userDetails = {
           id: foundUser.id,
           name: foundUser.name,
@@ -91,7 +85,13 @@ export default function CartPayment() {
     if (globalUser && globalUser.email) {
       fetchUserParams();
     }
-  }, [globalUser]);
+  }, [globalUser, setValues]);
+
+  useEffect(() => {
+    if (Object.keys(userDetails).length > 0 && globalUser.email && totalAmount) {
+      setShowCardPayment(true);
+    }
+  }, [userDetails, globalUser, totalAmount]);
 
   async function handleOnSubmitMercadoPago(formData) {
     const bodyOrder = {
@@ -122,9 +122,8 @@ export default function CartPayment() {
       userId: userDetails.id,
       cart: JSON.parse(localStorage.getItem("cart")),
     };
-    console.log(JSON.stringify(bodyOrder, null, 2));
 
-    const response = await sendPostRequest(bodyOrder, "orders/create-mercadopago-order");
+    const response = createMercadoPagoOrder();
 
     if (response.ok) {
       const purchaseBody = {
@@ -133,8 +132,6 @@ export default function CartPayment() {
         orderId: response.data.order.id,
       };
       useCartStore.getState().resetCart();
-      await sendPostRequest(bodyOrder, "orders/send-order-email-to-user");
-      await sendPostRequest(bodyOrder, "orders/send-order-email-to-admin");
       router.push("/cart-message", { state: { purchaseBody } });
       window.location.reload();
     }
@@ -239,8 +236,18 @@ export default function CartPayment() {
 
         <section className="lg:w-[50%] flex flex-col justify-start items-start px-5 pt-5 mb-12 md:px-10 ">
           <button onClick={redirect("/cart-payment")} className="mb-5"></button>
-          {Object.keys(userDetails).length > 0 && (
-            <CardPayment onSubmit={handleOnSubmitMercadoPago} initialization={initialization} customization={customization} />
+          {showCardPayment && (
+            <CardPayment
+              key="card-payment"
+              onSubmit={handleOnSubmitMercadoPago}
+              initialization={{
+                amount: totalAmount,
+                payer: {
+                  email: globalUser.email,
+                },
+              }}
+              customization={customization}
+            />
           )}
         </section>
       </div>
