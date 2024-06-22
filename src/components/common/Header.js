@@ -63,11 +63,11 @@ export default function Header() {
         <div className="nav-left md:px-3.5">
           <Link href="/">
             <Image
-              className="h-[70px] max-sm:hidden cursor-pointer"
+              className="h-[50px] w-auto md:h-[70px] hover:cursor-pointer"
               src="https://raw.githubusercontent.com/rgap/Ecommerce-G15-ImageRepository/main/images/logo/beautipol-textlogo.png"
               alt=""
-              width={200}
-              height={70}
+              width={175}
+              height={121}
               priority={true}
             />
           </Link>

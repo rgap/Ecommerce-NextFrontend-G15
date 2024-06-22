@@ -65,8 +65,8 @@ export default function Home() {
                     className="w-full h-auto aspect-square object-cover object-top transform scale-100 hover:scale-[1.05] transition-transform duration-[0.25s]"
                     src="https://raw.githubusercontent.com/rgap/Ecommerce-G15-ImageRepository/main/images/polo-blanco-modelo-home.jpg"
                     alt="Polo Blanco Modelo"
-                    width={500}
-                    height={300}
+                    width={331}
+                    height={511}
                   />
                 </div>
                 <div className="rounded-lg overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl">

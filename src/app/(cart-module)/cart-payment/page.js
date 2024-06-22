@@ -1,4 +1,3 @@
-// CartPayment.js
 "use client";
 import { Breadcrumb } from "@/components/cart";
 import { Logo } from "@/components/common";
@@ -23,6 +22,7 @@ export default function CartPayment() {
   const globalCart = useCartStore(state => state.cart);
   const [showCardPayment, setShowCardPayment] = useState(false);
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+  const [lastProductPath, setLastProductPath] = useState("/products");
 
   // Calculate total amount
   const totalAmount = globalCart.reduce((sum, product) => {
@@ -85,6 +85,13 @@ export default function CartPayment() {
   }, [globalUser, setValues]);
 
   useEffect(() => {
+    if (globalCart.length > 0) {
+      const lastProduct = globalCart[globalCart.length - 1];
+      setLastProductPath(lastProduct.productPath || "/products");
+    }
+  }, [globalCart]);
+
+  useEffect(() => {
     if (Object.keys(userDetails).length > 0 && globalUser.email && totalAmount) {
       setShowCardPayment(true);
     }
@@ -97,6 +104,13 @@ export default function CartPayment() {
       setInitialLoadComplete(true);
     }
   }, [globalUser, router, initialLoadComplete]);
+
+  // Check if the cart is empty on page load
+  useEffect(() => {
+    if (globalCart.length === 0 && initialLoadComplete) {
+      router.replace(lastProductPath); // Redirect to last product page or home
+    }
+  }, [router, lastProductPath, globalCart.length, initialLoadComplete]);
 
   const handleCheckBoxChange = () => {
     setCheckbox(!checkbox);
@@ -116,15 +130,15 @@ export default function CartPayment() {
   async function handleOnSubmitMercadoPago(formData) {
     const bodyOrder = {
       paymentDate: new Date(),
-      payerEmail: formData.payer.email,
-      payerDocumentType: formData.payer.identification.type,
-      payerDocumentNumber: formData.payer.identification.number,
+      payerEmail: formData.payerEmail,
+      payerDocumentType: formData.docType,
+      payerDocumentNumber: formData.docNumber,
       installments: formData.installments,
-      issuerId: formData.issuer_id,
-      paymentMethodId: formData.payment_method_id,
+      issuerId: formData.issuerId,
+      paymentMethodId: formData.paymentMethodId,
       token: formData.token,
       status: "created",
-      transactionAmount: formData.transaction_amount,
+      transactionAmount: formData.transactionAmount,
       shippingMethod: savedShippingOption,
 
       shippingName: userDetails.name,
@@ -140,20 +154,38 @@ export default function CartPayment() {
       billingPhoneNumber: values.phoneNumber,
 
       userId: userDetails.id,
-      cart: JSON.parse(localStorage.getItem("cart")),
+      cart: globalCart, // Fetch cart from useCartStore
     };
 
-    const response = createMercadoPagoOrder();
+    try {
+      // const response = await fetch('/api/createMercadoPagoOrder', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(bodyOrder)
+      // });
 
-    if (response.ok) {
+      // if (!response.ok) {
+      //   throw new Error('Failed to create order and process payment');
+      // }
+
+      // const responseData = await response.json();
+
+      const responseData = createMercadoPagoOrder();
+      console.log(responseData);
+
       const purchaseBody = {
         payerEmail: bodyOrder.payerEmail,
         userId: userDetails.id,
-        orderId: response.data.order.id,
+        orderId: responseData.data.order.id,
       };
+
       useCartStore.getState().resetCart();
+
       router.push("/cart-message", { state: { purchaseBody } });
-      window.location.reload();
+    } catch (error) {
+      console.error("Error processing payment:", error);
     }
   }
 
@@ -233,7 +265,7 @@ export default function CartPayment() {
           </form>
         </section>
 
-        <section className="lg:w-[50%] flex flex-col justify-start items-start px-5 pt-5 mb-12 md:px-10 ">
+        <section className="lg:w-[50%] flex flex-col justify-start lg:items-start items-center px-5 pt-5 mb-12 md:px-10 ">
           <button onClick={redirect("/cart-payment")} className="mb-5"></button>
           {showCardPayment && (
             <CardPaymentComponent
