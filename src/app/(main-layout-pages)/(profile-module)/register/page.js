@@ -1,23 +1,24 @@
 "use client";
 // import { GoogleLoginButton, TextField } from "@/components/GoogleLoginButton";
 import TextField from "@/components/common/TextField";
+import { sendPostRequest } from "@/services";
 import { useUserStore } from "@/store/useUserStore"; // Import the Zustand store
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-// import { sendPostRequest } from "../../services";
-import { checkIfEmailExists } from "@/mockData";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
 import { inputs } from "./form";
 
 export default function Register() {
+  const debugMode = true;
+
   const router = useRouter();
   const saveUser = useUserStore(state => state.saveUser); // Get the saveUser function from Zustand store
 
   const [values, setValues] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: debugMode ? "Beautipol Alpha Tester" : "",
+    email: debugMode ? "beautipol.alpha.1@gmail.com" : "",
+    password: debugMode ? "a1234567" : "",
   });
 
   const [errors, setErrors] = useState({
@@ -84,23 +85,18 @@ export default function Register() {
 
   const handleFormSubmit = async event => {
     event.preventDefault();
-    const debugMode = false;
 
     if (debugMode) {
-      // await sendPostRequest(values, "users/register");
-      // saveUser({ email: user.email });
       router.push("/?showModal=true");
     } else if (validateForm()) {
-      const response = checkIfEmailExists();
-      // const response = await sendPostRequest(
-      //   {
-      //     email: values.email,
-      //   },
-      //   "users/check-if-email-exists"
-      // );
-      // console.log("response", response);
+      const responseCheckIfEmailExists = await sendPostRequest({
+        endpoint: "users/check-if-email-exists",
+        body: {
+          email: values.email,
+        },
+      });
 
-      if (response.ok == true) {
+      if (responseCheckIfEmailExists.error) {
         // User exists
         setErrors(prevErrors => ({
           ...prevErrors,
@@ -108,7 +104,7 @@ export default function Register() {
         }));
       } else {
         // User not found
-        // await sendPostRequest(values, "users/register");
+        await sendPostRequest({ endpoint: "users/register", body: values });
         router.push("/?showModal=true");
       }
     }

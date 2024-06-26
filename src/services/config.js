@@ -1,9 +1,8 @@
 export async function makeHttpRequest({ endpoint, id, body, method = "GET", cache = "no-store" }) {
   const apiUrl = process.env.NEXT_PUBLIC_HOSTNAME_BACKEND;
-  process.env.NEXT_PUBLIC_API_URL;
 
   let finalUrl = `${apiUrl}${endpoint}`;
-  console.log("finalUrl", finalUrl);
+  // console.log("finalUrl", finalUrl);
 
   try {
     let fetchDetails = {
@@ -16,7 +15,7 @@ export async function makeHttpRequest({ endpoint, id, body, method = "GET", cach
       body: method !== "GET" ? JSON.stringify(body) : undefined, // Only include body for methods that use it
     };
 
-    // Add a key to fetchDetails that can be cache: or next: depending on the value of the cache parameter using a dic
+    // Add a key to fetchDetails that can be cache: or next: depending on the value of the cache parameter using an object
     const cacheOptions = {
       "no-cache": { cache: "no-store" },
       "revalidate-5min": { next: { revalidate: 300 } },
