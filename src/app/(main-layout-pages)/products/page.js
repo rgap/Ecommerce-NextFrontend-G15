@@ -1,13 +1,11 @@
 "use client";
 import ProductCard from "@/components/products/ProductCard";
-import { getAllProducts } from "@/mockData";
+import { sendGetRequest } from "@/services";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-// import { sendGetRequest } from "../../services";
-
-const productsArray = getAllProducts();
 
 export default function Products() {
+  const [productsArray, setProductsArray] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [productsToShow, setProductsToShow] = useState(12);
@@ -31,7 +29,17 @@ export default function Products() {
       const results = productsArray.filter(product => product?.title?.toLowerCase().includes(searchTerm.toLowerCase()));
       setFilteredProducts(results);
     }
-  }, [searchTerm]);
+  }, [searchTerm, productsArray]);
+
+  async function initializeProductsArray() {
+    const response = await sendGetRequest({ endpoint: "products/get-products-plp/all", cache: "revalidate-12h" });
+    // console.log("response", response);
+    setProductsArray(response.data);
+  }
+
+  useEffect(() => {
+    initializeProductsArray();
+  }, []);
 
   return (
     <main className="p-4 bg-[--color-bg] flex-grow flex justify-center">
