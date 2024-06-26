@@ -2,19 +2,20 @@ import ProductActions from "@/components/products/ProductActions";
 import ProductCard from "@/components/products/ProductCard";
 import ProductImageSlider from "@/components/products/ProductImageSlider";
 import RelatedProducts from "@/components/products/RelatedProducts";
-import { getProductBySlug, getRelatedProducts } from "@/mockData";
-import Image from "next/image";
+import { sendGetRequest } from "@/services";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export default function ProductDetailsPage({ params }) {
+export default async function ProductDetailsPage({ params }) {
   const { productSlug } = params;
-  const product = getProductBySlug(productSlug);
+  const productRequest = await sendGetRequest({ endpoint: `products/get-product-pdp-by-slug/${productSlug}`, cache: "revalidate-12h" });
 
   // If no product is found, return the notFound property
-  if (!product) {
+  if (!productRequest) {
     notFound();
   }
+
+  const product = productRequest.data;
 
   return (
     <>

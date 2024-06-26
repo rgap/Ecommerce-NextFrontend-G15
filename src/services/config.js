@@ -2,7 +2,7 @@ export async function makeHttpRequest({ endpoint, id, body, method = "GET", cach
   const apiUrl = process.env.NEXT_PUBLIC_HOSTNAME_BACKEND;
   process.env.NEXT_PUBLIC_API_URL;
 
-  let finalUrl = id ? `${apiUrl}${endpoint}/${id}` : `${apiUrl}${endpoint}`;
+  let finalUrl = `${apiUrl}${endpoint}`;
   console.log("finalUrl", finalUrl);
 
   try {
@@ -26,15 +26,16 @@ export async function makeHttpRequest({ endpoint, id, body, method = "GET", cach
 
     // Make the request
     const response = await fetch(`${finalUrl}`, fetchDetails);
+    const responseBody = await response.json();
 
     if (!response.ok) {
       // Handle HTTP errors
-      const errorBody = await response.json();
+      const errorBody = responseBody;
       return { error: true, ...errorBody, status: response.status };
+    } else {
+      const dataBody = responseBody.data;
+      return { data: dataBody, status: response.status };
     }
-
-    const data = await response.json();
-    return { ...data, status: response.status };
   } catch (error) {
     // Handle network errors or other fetching issues
     console.error("HTTP Request failed", error);

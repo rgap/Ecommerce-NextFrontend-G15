@@ -6,7 +6,9 @@ import ProductCard from "@/components/products/ProductCard";
 import { sendGetRequest } from "@/services";
 
 export default async function Home() {
-  const productsArray = await sendGetRequest({ endpoint: "products/get-products-plp/random", cache: "revalidate-5min" });
+  const productsRequest = await sendGetRequest({ endpoint: "products/get-products-plp/random", cache: "revalidate-5min" });
+  const productsArray = productsRequest.data;
+
   // Array of image URLs for the hero section
   const imageUrls = [
     "https://raw.githubusercontent.com/rgap/Ecommerce-G15-ImageRepository/main/images/polos-de-verano-hero.jpg",
@@ -42,9 +44,9 @@ export default async function Home() {
             <div className="my-10 font-semibold text-3xl text-center sm:text-left">
               <span>Polos de Diseño Variado</span>
             </div>
-            {productsArray.data && productsArray.data.length > 0 ? (
+            {productsArray && productsArray.length > 0 ? (
               <div className="my-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-                {productsArray.data.slice(0, 4).map(product => (
+                {productsArray.slice(0, 4).map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
