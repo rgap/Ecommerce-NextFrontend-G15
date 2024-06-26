@@ -18,7 +18,7 @@ export default function ProductDetailsPage({ params }) {
 
   return (
     <>
-      <main className="py-8 px-4  md:px-8 bg-[--color-bg] flex justify-center">
+      <main className="py-8 px-4 md:px-8 bg-[--color-bg] flex-grow flex justify-center">
         <section className="flex flex-col gap-8 max-w-[1200px] mb-4">
           {/* Navigation breadcrumb */}
           <nav aria-label="breadcrumb">

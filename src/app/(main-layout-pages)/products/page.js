@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const productsArray = getAllProducts();
 
-function Products() {
+export default function Products() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [productsToShow, setProductsToShow] = useState(12);
@@ -34,7 +34,7 @@ function Products() {
   }, [searchTerm]);
 
   return (
-    <main className="p-4 bg-[--color-bg] flex justify-center">
+    <main className="p-4 bg-[--color-bg] flex-grow flex justify-center">
       <section className="flex flex-col gap-5 mt-4 mb-16 ">
         <nav aria-label="breadcrumb">
           <ol className="flex text-xl">
@@ -99,5 +99,3 @@ function Products() {
     </main>
   );
 }
-
-export default Products;
