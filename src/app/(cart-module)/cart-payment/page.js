@@ -1,5 +1,6 @@
 "use client";
 import { Breadcrumb } from "@/components/cart";
+import CardPaymentForm from "@/components/cart/CardPaymentForm"; // Correctly import the component
 import { Logo } from "@/components/common";
 import { getUserByEmail } from "@/mockData";
 import createMercadoPagoOrder from "@/mockData/createMercadoPagoOrder";
@@ -10,7 +11,6 @@ import { useFormik } from "formik";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import CardPaymentComponent from "./CardPaymentComponent"; // Correctly import the component
 import { inputs } from "./form";
 
 export default function CartPayment() {
@@ -265,7 +265,7 @@ export default function CartPayment() {
         <section className="lg:w-[50%] flex flex-col justify-start lg:items-start items-center px-5 pt-5 mb-12 md:px-10 ">
           <button onClick={redirect("/cart-payment")} className="mb-5"></button>
           {showCardPayment && (
-            <CardPaymentComponent
+            <CardPaymentForm
               totalAmount={totalAmount}
               globalUser={globalUser}
               handleOnSubmitMercadoPago={handleOnSubmitMercadoPago}

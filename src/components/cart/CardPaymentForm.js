@@ -4,7 +4,7 @@ import { creditCardSchema } from "@/schemas/creditCardSchema";
 import { useFormik } from "formik";
 import React from "react";
 
-export default function CardPaymentComponent({ totalAmount, globalUser, handleOnSubmitMercadoPago, customization }) {
+export default function CardPaymentForm({ totalAmount, globalUser, handleOnSubmitMercadoPago, customization }) {
   const formik = useFormik({
     initialValues: {
       cardNumber: "4009175332806176",
