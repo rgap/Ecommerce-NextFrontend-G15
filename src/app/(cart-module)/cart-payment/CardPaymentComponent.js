@@ -7,17 +7,16 @@ import React from "react";
 export default function CardPaymentComponent({ totalAmount, globalUser, handleOnSubmitMercadoPago, customization }) {
   const formik = useFormik({
     initialValues: {
-      cardNumber: "5031755734530604",
-      cardholderName: "APRO",
+      cardNumber: "4009175332806176",
+      cardholderName: "BETATESTER",
       expiration: "11/25",
       securityCode: "123",
-      docNumber: "123456",
+      docNumber: "12345678",
     },
     validationSchema: creditCardSchema,
     onSubmit: async values => {
       try {
         const tokenData = generateCardToken();
-
         handleOnSubmitMercadoPago({
           ...values,
           token: tokenData.id,
@@ -35,15 +34,11 @@ export default function CardPaymentComponent({ totalAmount, globalUser, handleOn
   });
 
   return (
-    <form
-      id="paymentForm"
-      onSubmit={formik.handleSubmit}
-      className="w-full md:w-[400px] xl:w-[500px] mb-10 flex flex-col gap-4 p-6 bg-white shadow-md rounded-lg"
-    >
+    <form id="paymentForm" onSubmit={formik.handleSubmit} className="bg-white p-6 w-full max-w-[420px] md:min-w-[380px] mb-10 flex flex-col gap-3 ">
       <h2 className="text-xl font-bold mb-4 text-center">Información de Pago</h2>
 
-      <div className="flex flex-col">
-        <label htmlFor="cardNumber" className="mb-1 text-sm font-medium">
+      <div className="flex flex-col gap-3">
+        <label htmlFor="cardNumber" className="mb-1 text-sm">
           Número de tarjeta
         </label>
         <input
@@ -53,14 +48,14 @@ export default function CardPaymentComponent({ totalAmount, globalUser, handleOn
           value={formik.values.cardNumber}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className={`w-full p-2 border rounded-md ${formik.touched.cardNumber && formik.errors.cardNumber ? "border-red-500" : "border-gray-300"}`}
+          className={"w-full p-2 outline-none border border-[--color-form-border]"}
         />
-        {formik.touched.cardNumber && formik.errors.cardNumber && <p className="text-xs text-red-500">{formik.errors.cardNumber}</p>}
+        {formik.touched.cardNumber && formik.errors.cardNumber && <p className="text-red-500 mt-1 text-xs">{formik.errors.cardNumber}</p>}
       </div>
 
-      <div className="flex flex-col md:flex-row md:gap-4">
+      <div className="flex flex-col md:flex-row md:gap-3">
         <div className="flex flex-col md:w-1/2">
-          <label htmlFor="expiration" className="mb-1 text-sm font-medium">
+          <label htmlFor="expiration" className="mb-1 text-sm">
             Vencimiento (MM/YY)
           </label>
           <input
@@ -70,13 +65,13 @@ export default function CardPaymentComponent({ totalAmount, globalUser, handleOn
             value={formik.values.expiration}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className={`w-full p-2 border rounded-md ${formik.touched.expiration && formik.errors.expiration ? "border-red-500" : "border-gray-300"}`}
+            className={"w-full p-2 outline-none border border-[--color-form-border]"}
           />
-          {formik.touched.expiration && formik.errors.expiration && <p className="text-xs text-red-500">{formik.errors.expiration}</p>}
+          {formik.touched.expiration && formik.errors.expiration && <p className="text-red-500 mt-1 text-xs">{formik.errors.expiration}</p>}
         </div>
 
         <div className="flex flex-col md:w-1/2">
-          <label htmlFor="securityCode" className="mb-1 text-sm font-medium">
+          <label htmlFor="securityCode" className="mb-1 text-sm">
             Código de seguridad
           </label>
           <input
@@ -86,16 +81,14 @@ export default function CardPaymentComponent({ totalAmount, globalUser, handleOn
             value={formik.values.securityCode}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className={`w-full p-2 border rounded-md ${
-              formik.touched.securityCode && formik.errors.securityCode ? "border-red-500" : "border-gray-300"
-            }`}
+            className={"w-full p-2 outline-none border border-[--color-form-border]"}
           />
-          {formik.touched.securityCode && formik.errors.securityCode && <p className="text-xs text-red-500">{formik.errors.securityCode}</p>}
+          {formik.touched.securityCode && formik.errors.securityCode && <p className="text-red-500 mt-1 text-xs">{formik.errors.securityCode}</p>}
         </div>
       </div>
 
       <div className="flex flex-col">
-        <label htmlFor="cardholderName" className="mb-1 text-sm font-medium">
+        <label htmlFor="cardholderName" className="mb-1 text-sm">
           Nombre del titular de la tarjeta
         </label>
         <input
@@ -105,34 +98,14 @@ export default function CardPaymentComponent({ totalAmount, globalUser, handleOn
           value={formik.values.cardholderName}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className={`w-full p-2 border rounded-md ${
-            formik.touched.cardholderName && formik.errors.cardholderName ? "border-red-500" : "border-gray-300"
-          }`}
+          className={"w-full p-2 outline-none border border-[--color-form-border]"}
         />
-        {formik.touched.cardholderName && formik.errors.cardholderName && <p className="text-xs text-red-500">{formik.errors.cardholderName}</p>}
-      </div>
-
-      <div className="flex flex-col md:flex-row md:gap-4">
-        <div className="flex flex-col md:w-full">
-          <label htmlFor="docNumber" className="mb-1 text-sm font-medium">
-            Documento del titular (DNI)
-          </label>
-          <input
-            type="text"
-            id="docNumber"
-            name="docNumber"
-            value={formik.values.docNumber}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className={`w-full p-2 border rounded-md ${formik.touched.docNumber && formik.errors.docNumber ? "border-red-500" : "border-gray-300"}`}
-          />
-          {formik.touched.docNumber && formik.errors.docNumber && <p className="text-xs text-red-500">{formik.errors.docNumber}</p>}
-        </div>
+        {formik.touched.cardholderName && formik.errors.cardholderName && <p className="text-red-500 mt-1 text-xs">{formik.errors.cardholderName}</p>}
       </div>
 
       <button
         type="submit"
-        className="w-full py-2 mt-4 bg-indigo-600 text-white font-bold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+        className="w-full flex mb-6 mt-2 items-center justify-center px-4 py-4 bg-[--color-cart-text-button-comp] hover:bg-[--color-cart-text-button-comp-hover] text-white text-sm capitalize leading-normal transition-transform duration-100"
       >
         Pagar
       </button>

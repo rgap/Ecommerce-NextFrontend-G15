@@ -45,8 +45,8 @@ export default function ProductActions({ product }) {
       <button
         key={color.name}
         style={{ backgroundColor: color.hexCode }}
-        className={`w-8 h-8 mr-2 border-2  rounded-lg shadow-lg hover:shadow-xl${
-          selectedColor === color.name ? "border-black" : "hover:border-gray-300"
+        className={`w-8 h-8 mr-2 border-2 rounded-lg shadow-lg hover:shadow-xl${
+          selectedColor === color.name ? " border-black" : " hover:border-gray-300"
         }`}
         onClick={() => setSelectedColor(color.name)}
       ></button>

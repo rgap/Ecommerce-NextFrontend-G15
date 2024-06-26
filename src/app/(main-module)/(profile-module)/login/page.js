@@ -1,35 +1,28 @@
 "use client";
-import { useUserStore } from "@/store/useUserStore"; // Adjust the path as needed
-import { useCallback, useState } from "react";
-// import { GoogleLoginButton, TextField } from "@/components/GoogleLoginButton";
 import TextField from "@/components/common/TextField";
+import { getLoginResult } from "@/mockData";
+import { useUserStore } from "@/store/useUserStore";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-// import { sendPostRequest } from "../../services";
-import { getLoginResult } from "@/mockData";
+import { useRouter } from "next/navigation"; // Correct the import for useRouter
+import { useState } from "react";
 import { inputs } from "./form";
 
 export default function Login() {
   const router = useRouter();
   const { saveUser } = useUserStore();
 
+  const debugMode = true; // Set this based on your environment or a config
+
   const [values, setValues] = useState({
-    email: "",
-    password: "",
+    email: debugMode ? "beautipol.alpha.1@gmail.com" : "",
+    password: debugMode ? "a1234567" : "",
   });
 
   const [errors, setErrors] = useState({
     email: "",
     password: "",
   });
-
-  // function redirect(route) {
-  //   return event => {
-  //     event.preventDefault();
-  //     router.push(route);
-  //   };
-  // }
 
   const handleInputChange = event => {
     setValues({
@@ -45,7 +38,7 @@ export default function Login() {
       email: value => {
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         if (!emailRegex.test(value)) {
-          return `Formato de correo invalido`;
+          return "Formato de correo invalido";
         }
       },
     };
@@ -53,7 +46,7 @@ export default function Login() {
     inputs.forEach(input => {
       const value = values[input.name];
       if (value === "") {
-        errors[input.name] = `Este campo no puede estar vacio`;
+        errors[input.name] = "Este campo no puede estar vacio";
       } else if (validations[input.name]) {
         const errorMessage = validations[input.name](value);
         if (errorMessage) {
@@ -69,16 +62,12 @@ export default function Login() {
   const handleFormSubmit = async event => {
     event.preventDefault();
     if (validateForm()) {
-      // const response = await sendPostRequest(values, "users/login");
-      const response = getLoginResult();
-      // console.log(response);
+      const response = getLoginResult(); // Simplified login function
 
       if (response.ok) {
-        // login successful
         saveUser({ email: values.email });
         router.push("/");
       } else {
-        // login error
         setErrors({
           ...errors,
           email: "Correo y/o password incorrecto",
@@ -88,32 +77,13 @@ export default function Login() {
     }
   };
 
-  const handleGoogleLoginOrRegister = useCallback(
-    async idToken => {
-      try {
-        const response = await sendPostRequest({ token: idToken }, "users/auth/google");
-        if (!response.ok) {
-          throw new Error("Failed to verify Google ID token");
-        }
-        const userData = await response.data;
-        saveUser({ email: userData.email });
-        // User validated
-        router.push("/");
-      } catch (error) {
-        console.error("Error during Google login or registration:", error);
-      }
-    },
-    [saveUser, router]
-  );
-
   return (
-    <main className="bg-white h-full flex justify-center items-center p-5">
+    <main className="bg-white flex-grow flex justify-center items-center p-5">
       <div className="bg-white p-6 w-full max-w-[420px] md:min-w-[380px]">
         <a href="/" className="mb-14 flex items-center cursor-pointer">
           <Image
-            className="w-5"
             src="https://raw.githubusercontent.com/rgap/Ecommerce-G15-ImageRepository/main/icons/arrow_back.svg"
-            alt=""
+            alt="Back to home"
             width={24}
             height={24}
           />
@@ -145,12 +115,6 @@ export default function Login() {
           <button className="w-full flex mb-6 mt-2 items-center justify-center px-4 py-4 bg-[--color-cart-text-button-comp] hover:bg-[--color-cart-text-button-comp-hover] text-white text-sm capitalize leading-normal transition-transform duration-100 ">
             Ingresar
           </button>
-          {/* 
-          <div className="flex flex-col items-center justify-center text-xs mb-6 text-center gap-6">
-            <p>o entra con tu cuenta gmail</p>
-            <GoogleLoginButton onUserLogin={handleGoogleLoginOrRegister} /> 
-          </div>
-          */}
 
           <div className="text-center">
             <span className="text-neutral-950 text-base">¿Eres nuevo? </span>

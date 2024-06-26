@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 // import { sendPostRequest, sendPutRequest } from "../../services";
 import { getUserByEmail } from "@/mockData";
+import { useCartStore } from "@/store/useCartStore";
 import { useUserStore } from "@/store/useUserStore";
 import { inputsAccount } from "./form";
 
 export default function Profile() {
   const router = useRouter();
+  const { resetAll } = useCartStore();
   const { user, saveUser, logOutUser } = useUserStore(state => ({
     user: state.user,
     saveUser: state.saveUser,
@@ -203,6 +205,7 @@ export default function Profile() {
 
   function logOut() {
     logOutUser();
+    resetAll();
     router.push("/");
   }
 

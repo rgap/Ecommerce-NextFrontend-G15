@@ -20,6 +20,6 @@ export const creditCardSchema = yup.object().shape({
     .required("El nombre del titular es obligatorio"),
   docNumber: yup
     .string()
-    .matches(/^\d{6}$/, "El número de documento debe tener 6 dígitos")
+    .matches(/^\d{8}$/, "El número de documento debe tener 8 dígitos")
     .required("El número de documento es obligatorio"),
 });

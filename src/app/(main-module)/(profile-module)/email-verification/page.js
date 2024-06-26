@@ -68,7 +68,7 @@ export default function EmailVerification() {
   };
 
   return (
-    <main className="bg-white h-full flex justify-center items-center p-5">
+    <main className="bg-white flex-grow flex justify-center items-center p-5">
       <div className="bg-white p-6 w-full max-w-[420px] md:min-w-[380px] rounded-lg">
         <h1 className="font-semibold mb-5 text-center capitalize text-3xl">Verificación de Correo Electrónico</h1>
         <p className="text-center mb-5">

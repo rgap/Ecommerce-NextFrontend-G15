@@ -119,8 +119,8 @@ function EmailSignupForm() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    const debug = true;
-    if (debug) {
+    const debugMode = true;
+    if (debugMode) {
       setEmail("");
       setName("");
       setPhone("");

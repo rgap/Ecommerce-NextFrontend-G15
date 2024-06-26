@@ -84,9 +84,9 @@ export default function Register() {
 
   const handleFormSubmit = async event => {
     event.preventDefault();
-    const debug = false;
+    const debugMode = false;
 
-    if (debug) {
+    if (debugMode) {
       // await sendPostRequest(values, "users/register");
       // saveUser({ email: user.email });
       router.push("/?showModal=true");
@@ -133,7 +133,7 @@ export default function Register() {
   // );
 
   return (
-    <main className="bg-white h-full flex justify-center items-center p-5">
+    <main className="bg-white flex-grow flex justify-center items-center p-5">
       <div className="bg-white p-6 w-full max-w-[420px] md:min-w-[380px]">
         <a className="mb-14 flex items-center cursor-pointer" href="/login">
           <Image

@@ -19,7 +19,7 @@ export default function CartPayment() {
   const [checkbox, setCheckbox] = useState(true);
   const [userDetails, setUserDetails] = useState({});
   const globalUser = useUserStore(state => state.user);
-  const globalCart = useCartStore(state => state.cart);
+  const { cart: globalCart, shippingOption: savedShippingOption, setCheckoutInfo } = useCartStore();
   const [showCardPayment, setShowCardPayment] = useState(false);
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
   const [lastProductPath, setLastProductPath] = useState("/products");
@@ -34,7 +34,6 @@ export default function CartPayment() {
     rapido: "20.00",
   };
   const getShippingCost = option => shippingCosts[option] || "0.00";
-  const savedShippingOption = typeof window !== "undefined" ? localStorage.getItem("shippingOption") : "regular";
   const totalShipping = getShippingCost(savedShippingOption);
 
   const customization = {
@@ -173,7 +172,6 @@ export default function CartPayment() {
       // const responseData = await response.json();
 
       const responseData = createMercadoPagoOrder();
-      console.log(responseData);
 
       const purchaseBody = {
         payerEmail: bodyOrder.payerEmail,
@@ -181,9 +179,8 @@ export default function CartPayment() {
         orderId: responseData.data.order.id,
       };
 
-      useCartStore.getState().resetCart();
-
-      router.push("/cart-message", { state: { purchaseBody } });
+      setCheckoutInfo(purchaseBody);
+      router.push("/cart-message");
     } catch (error) {
       console.error("Error processing payment:", error);
     }
