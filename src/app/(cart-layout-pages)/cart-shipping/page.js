@@ -64,7 +64,7 @@ export default function CartShipping() {
     }
     setSelectedValue(savedShippingOption);
     setCostoEnvio(getShippingCost(savedShippingOption));
-  }, []);
+  }, [getShippingCost]);
 
   const handleRadioChange = event => {
     const shippingOption = event.target.value;

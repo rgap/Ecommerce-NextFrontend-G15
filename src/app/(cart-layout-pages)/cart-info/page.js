@@ -2,8 +2,8 @@
 import { Breadcrumb, ProductShoppingCart } from "@/components/cart";
 import { Button } from "@/components/common";
 import Logo from "@/components/common/Logo";
-import { getUserByEmail } from "@/mockData";
 import { basicSchema } from "@/schemas/basicSchema";
+import { sendPostRequest, sendPutRequest } from "@/services";
 import { useCartStore } from "@/store/useCartStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useFormik } from "formik";
@@ -48,7 +48,7 @@ export default function CartInfo() {
   }, [lastProductPath, router, total, initialLoadComplete]);
 
   const onSubmit = async (values, actions) => {
-    // await sendPutRequest(personalData.id, values, "users");
+    await sendPutRequest({ endpoint: `users/${personalData.id}`, body: values });
     router.push("/cart-shipping");
   };
 
@@ -73,13 +73,8 @@ export default function CartInfo() {
 
   async function initializeFormData() {
     if (globalUser) {
-      const foundUser = getUserByEmail();
-      // const response = await sendPostRequest(
-      //   {
-      //     email: globalUser.email,
-      //   },
-      //   "users/get-by-email"
-      // );
+      const responseGetByEmail = await sendPostRequest({ endpoint: "users/get-by-email", body: { email: globalUser.email } });
+      const foundUser = responseGetByEmail.data;
 
       if (foundUser) {
         setPersonalData({
