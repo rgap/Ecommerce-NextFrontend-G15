@@ -24,7 +24,7 @@ export default function QuantityButton({ productId, productQuantity, product, cl
         height={20}
       />
 
-      <p className="text-sm md:text-lg self-baseline "> {productQuantity} </p>
+      <p className="text-sm md:text-lg self-baseline"> {productQuantity} </p>
 
       <Image
         onClick={() => handleAddToCart(product)}

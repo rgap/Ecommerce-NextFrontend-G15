@@ -1,13 +1,12 @@
-// src/store/useCartStore.js
-import { create } from "zustand";
+import create from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 export const useCartStore = create(
   persist(
     (set, get) => ({
       cart: [],
-      shippingOption: "regular", // Default shipping option
-      checkoutInfo: {}, // Stores checkout-related details
+      shippingOption: "regular",
+      checkoutInfo: {},
       setShippingOption: option => set({ shippingOption: option }),
       setCheckoutInfo: info => set({ checkoutInfo: info }),
       addToCart: newProduct => {
@@ -25,29 +24,36 @@ export const useCartStore = create(
           set({ cart: newState });
         }
       },
-      removeFromCart: productId =>
+      removeFromCart: productId => {
         set(state => {
           const newState = state.cart
             .map(item => {
               if (item.id === productId) {
-                return item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : false;
+                if (item.quantity > 1) {
+                  return { ...item, quantity: item.quantity - 1 };
+                } else {
+                  return null;
+                }
               }
               return item;
             })
-            .filter(Boolean);
-          set({ cart: newState });
-        }),
-      deleteFromCart: productId =>
+            .filter(item => item !== null);
+          // console.log("Updated cart:", newState);
+          return { cart: newState };
+        });
+      },
+      deleteFromCart: productId => {
         set(state => {
           const newState = state.cart.filter(item => item.id !== productId);
-          set({ cart: newState });
-        }),
+          return { cart: newState };
+        });
+      },
       resetCart: () => set({ cart: [] }),
       resetAll: () => set({ cart: [], shippingOption: "regular", checkoutInfo: {} }),
     }),
     {
-      name: "cart-storage", // unique name for the item in localStorage
-      storage: createJSONStorage(() => localStorage), // use localStorage for storage
+      name: "cart-storage",
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

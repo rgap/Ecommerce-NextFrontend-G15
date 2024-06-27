@@ -10,7 +10,7 @@ import { useCallback, useState } from "react";
 import { inputs } from "./form";
 
 export default function Register() {
-  const debugMode = false;
+  const debugMode = process.env.NEXT_PUBLIC_DEBUG_MODE;
 
   const router = useRouter();
   const saveUser = useUserStore(state => state.saveUser); // Get the saveUser function from Zustand store
@@ -95,8 +95,6 @@ export default function Register() {
           email: values.email,
         },
       });
-
-      // console.log("responseCheckIfEmailExists", responseCheckIfEmailExists);
 
       if (responseCheckIfEmailExists.ok) {
         // User exists

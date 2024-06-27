@@ -13,7 +13,7 @@ export default function Login() {
   const router = useRouter();
   const { saveUser } = useUserStore();
 
-  const debugMode = true; // Set this based on your environment or a config
+  const debugMode = process.env.NEXT_PUBLIC_DEBUG_MODE; // Set this based on your environment or a config
 
   const [values, setValues] = useState({
     email: debugMode ? "beautipol.alpha.1@gmail.com" : "",
