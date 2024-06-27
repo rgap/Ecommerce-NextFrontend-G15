@@ -1,12 +1,11 @@
 "use client";
 /* eslint-disable react/prop-types */
 import EditableField from "@/components/EditableField";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-// import { sendPostRequest, sendPutRequest } from "../../services";
-import { getUserByEmail } from "@/mockData";
+import { sendPostRequest, sendPutRequest } from "@/services";
 import { useCartStore } from "@/store/useCartStore";
 import { useUserStore } from "@/store/useUserStore";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { inputsAccount } from "./form";
 
 export default function Profile() {
@@ -138,16 +137,15 @@ export default function Profile() {
   };
 
   async function initializeFormData() {
-    // console.log("user.email", user.email);
-    // const response = await sendPostRequest(
-    //   {
-    //     email: user.email,
-    //   },
-    //   "users/get-by-email"
-    // );
-    const foundUser = getUserByEmail();
+    const responseGetByEmail = await sendPostRequest({
+      endpoint: "users/get-by-email",
+      body: {
+        email: user.email,
+      },
+    });
 
-    if (foundUser) {
+    if (responseGetByEmail.ok) {
+      const foundUser = responseGetByEmail.data;
       setUserID(foundUser.id);
       setPersonalData(prev => ({ ...prev, ...filterKeys(foundUser, prev) }));
     }
@@ -173,7 +171,7 @@ export default function Profile() {
     const isDataChanged = Object.keys(personalData).some(key => personalData[key] !== originalPersonalData[key]);
 
     if (isEditablePersonal && isDataChanged && !hasErrors(personalErrors)) {
-      // await sendPutRequest(userID, { ...personalData }, "users");
+      await sendPutRequest({ endpoint: `users/${userID}`, body: { ...personalData } });
     } else {
       setOriginalPersonalData({ ...personalData });
     }

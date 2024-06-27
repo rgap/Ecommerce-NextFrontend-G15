@@ -1,5 +1,5 @@
 "use client";
-import { verifyEmailToken } from "@/mockData";
+import sendGetRequest from "@/services/sendGetRequest";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -36,8 +36,8 @@ export default function EmailVerification() {
       }
 
       try {
-        const response = verifyEmailToken();
-        if (response.ok) {
+        const responseVerifyEmailToken = await sendGetRequest({ endpoint: `users/verify-email/token=${token}` });
+        if (responseVerifyEmailToken.ok) {
           setMessage("Correo electrónico verificado con éxito.");
         } else {
           handleErrors(response);

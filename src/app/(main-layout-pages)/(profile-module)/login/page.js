@@ -1,10 +1,11 @@
 "use client";
 import TextField from "@/components/common/TextField";
 import { getLoginResult } from "@/mockData";
+import { sendPostRequest } from "@/services";
 import { useUserStore } from "@/store/useUserStore";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Correct the import for useRouter
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { inputs } from "./form";
 
@@ -62,9 +63,9 @@ export default function Login() {
   const handleFormSubmit = async event => {
     event.preventDefault();
     if (validateForm()) {
-      const response = getLoginResult(); // Simplified login function
+      const constResponseLogin = await sendPostRequest({ endpoint: "users/login", body: values });
 
-      if (response.ok) {
+      if (constResponseLogin.ok) {
         saveUser({ email: values.email });
         router.push("/");
       } else {

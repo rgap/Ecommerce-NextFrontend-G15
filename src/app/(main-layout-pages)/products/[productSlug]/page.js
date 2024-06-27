@@ -11,7 +11,7 @@ export default async function ProductDetailsPage({ params }) {
   const productRequest = await sendGetRequest({ endpoint: `products/get-product-pdp-by-slug/${productSlug}`, cache: "revalidate-12h" });
 
   // If no product is found, display the notFound page
-  if (productRequest.error) {
+  if (!productRequest.ok) {
     notFound();
   }
 
