@@ -1,9 +1,13 @@
+import ConfirmationModal from "@/components/ConfirmationModal";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 
 import BackgroundImageSlider from "@/components/BackgroundImageSlider";
 import ProductCard from "@/components/products/ProductCard";
 import { sendGetRequest } from "@/services";
+
+// const ConfirmationModal = dynamic(() => import("@/components/ConfirmationModal"), { ssr: false });
 
 export default async function Home() {
   const productsRequest = await sendGetRequest({ endpoint: "products/get-products-plp/random", cache: "revalidate-5min" });
@@ -128,6 +132,8 @@ export default async function Home() {
           </div>
         </section>
       </main>
+
+      <ConfirmationModal />
     </>
   );
 }
