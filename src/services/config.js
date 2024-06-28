@@ -1,8 +1,8 @@
-export async function makeHttpRequest({ endpoint, id, body, method = "GET", cache = "no-store" }) {
+export async function makeHttpRequest({ endpoint, body, method = "GET", cache = "no-store" }) {
   const apiUrl = process.env.NEXT_PUBLIC_HOSTNAME_BACKEND;
 
   let finalUrl = `${apiUrl}${endpoint}`;
-  console.log("finalUrl", finalUrl);
+  // console.log("finalUrl", finalUrl);
 
   try {
     let fetchDetails = {
@@ -14,7 +14,8 @@ export async function makeHttpRequest({ endpoint, id, body, method = "GET", cach
 
       body: method !== "GET" ? JSON.stringify(body) : undefined, // Only include body for methods that use it
     };
-    console.log(fetchDetails);
+    // console.log(fetchDetails);
+    // console.log(JSON.stringify(body, null, 2));
 
     // Add a key to fetchDetails that can be cache: or next: depending on the value of the cache parameter using an object
     const cacheOptions = {
@@ -35,7 +36,7 @@ export async function makeHttpRequest({ endpoint, id, body, method = "GET", cach
     } else {
       responseReturned = { ok: true, data: responseBody.data, status: response.status };
     }
-    console.log(responseReturned);
+    // console.log(responseReturned);
     return responseReturned;
   } catch (error) {
     // Handle network errors or other fetching issues

@@ -12,7 +12,7 @@ export default function generateCardToken() {
           number: "12345678",
           type: "DNI",
         },
-        name: "BETATESTER",
+        name: "ALPHATESTER",
       },
       status: "active",
       date_created: "2024-06-26T03:37:54.746-04:00",

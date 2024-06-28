@@ -1,6 +1,6 @@
 "use client";
 import { Breadcrumb, ProductShoppingCart } from "@/components/cart";
-import { Button, Logo } from "@/components/common";
+import { Button } from "@/components/common";
 import { useCartStore } from "@/store/useCartStore";
 import { useUserStore } from "@/store/useUserStore";
 import Image from "next/image";
@@ -83,8 +83,6 @@ export default function CartShipping() {
   return (
     <main className="lg:flex">
       <section className="cart-info-left lg:w-[60%] flex flex-col min-w-[590px]">
-        <Logo />
-
         <div className="mx-10 xl:mx-20 my-0">
           <div className="grid-shipping">
             <Breadcrumb />

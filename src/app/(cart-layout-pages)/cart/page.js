@@ -1,6 +1,6 @@
 "use client";
 import { ProductShoppingCart, QuantityButton } from "@/components/cart";
-import { Button, Logo } from "@/components/common";
+import { Button } from "@/components/common";
 import { useCartStore } from "@/store/useCartStore";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -44,7 +44,6 @@ export default function Cart() {
 
   return (
     <main className="bg-white">
-      <Logo />
       <section className="flex flex-col md:px-10">
         <div className="flex justify-center">
           <div className="flex flex-col">

@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+"use client";
 import { useRouter } from "next/navigation";
 
 export default function Button({ text, type = "button", className, variant = "primary", ruta, clickFunction = true }) {

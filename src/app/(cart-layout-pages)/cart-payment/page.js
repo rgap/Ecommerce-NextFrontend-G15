@@ -1,10 +1,8 @@
 "use client";
 import { Breadcrumb } from "@/components/cart";
 import CardPaymentForm from "@/components/cart/CardPaymentForm"; // Correctly import the component
-import { Logo } from "@/components/common";
-import { getUserByEmail } from "@/mockData";
-import createMercadoPagoOrder from "@/mockData/createMercadoPagoOrder";
 import { basicSchema } from "@/schemas/basicSchema";
+import { sendPostRequest } from "@/services";
 import { useCartStore } from "@/store/useCartStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useFormik } from "formik";
@@ -62,7 +60,8 @@ export default function CartPayment() {
   useEffect(() => {
     const fetchUserParams = async () => {
       try {
-        const foundUser = getUserByEmail();
+        const responseGetByEmail = await sendPostRequest({ endpoint: "users/get-by-email", body: { email: globalUser.email } });
+        const foundUser = responseGetByEmail.data;
         const userDetails = {
           id: foundUser.id,
           name: foundUser.name,
@@ -127,19 +126,25 @@ export default function CartPayment() {
   };
 
   async function handleOnSubmitMercadoPago(formData) {
+    // TODO: HARDCODED FOR TESTING TEST VISA CARDS ONLY
+    // paymentMethodId should be dynamic based on the user's payment method selection / based on the bin number
+    // and the issuerId should be fetched from the payment method selection
+    const paymentMethodId = "visa";
+    const issuerId = "12354";
+    const installments = 1;
+
     const bodyOrder = {
       paymentDate: new Date(),
-      payerEmail: formData.payerEmail,
+      payerEmail: globalUser.email,
       payerDocumentType: formData.docType,
       payerDocumentNumber: formData.docNumber,
-      installments: formData.installments,
-      issuerId: formData.issuerId,
-      paymentMethodId: formData.paymentMethodId,
+      installments: installments,
+      issuerId: issuerId,
+      paymentMethodId: paymentMethodId,
       token: formData.token,
       status: "created",
-      transactionAmount: formData.transactionAmount,
+      transactionAmount: totalAmount,
       shippingMethod: savedShippingOption,
-
       shippingName: userDetails.name,
       shippingAddress: userDetails.address,
       shippingCity: userDetails.city,
@@ -157,30 +162,25 @@ export default function CartPayment() {
     };
 
     try {
-      // const response = await fetch('/api/createMercadoPagoOrder', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify(bodyOrder)
-      // });
+      console.log(JSON.stringify(bodyOrder, null, 2));
+      const responseCreateMercadoPagoOrder = await sendPostRequest({ endpoint: "orders/create-mercadopago-order", body: bodyOrder });
 
-      // if (!response.ok) {
-      //   throw new Error('Failed to create order and process payment');
+      // if (!responseCreateMercadoPagoOrder.ok) {
+      //   // Redirect to the checkout fail message page
+      //   router.push("/cart-message-fail");
       // }
+      // const responseData = responseCreateMercadoPagoOrder.data;
 
-      // const responseData = await response.json();
+      // // Create purchase body for the checkout success message page
+      // const purchaseBody = {
+      //   payerEmail: bodyOrder.payerEmail,
+      //   userId: userDetails.id,
+      //   orderId: responseData.order.id,
+      // };
+      // setCheckoutInfo(purchaseBody);
 
-      const responseData = createMercadoPagoOrder();
-
-      const purchaseBody = {
-        payerEmail: bodyOrder.payerEmail,
-        userId: userDetails.id,
-        orderId: responseData.data.order.id,
-      };
-
-      setCheckoutInfo(purchaseBody);
-      router.push("/cart-message");
+      // // Redirect to the checkout success message page
+      // router.push("/cart-message");
     } catch (error) {
       console.error("Error processing payment:", error);
     }
@@ -202,7 +202,6 @@ export default function CartPayment() {
 
   return (
     <main>
-      <Logo />
       <div className="flex flex-col md:flex lg:flex-row">
         <section className="cart-info-left lg:w-[50%] flex flex-col items-center md:items-left px-12">
           <Breadcrumb />
@@ -213,13 +212,19 @@ export default function CartPayment() {
             <ul className="mb-4">
               {globalCart.map((product, index) => (
                 <li key={index} className="mb-2">
-                  {product.title} - {product.quantity} x S/ {parseFloat(product.price).toFixed(2)}
+                  {product.quantity} &nbsp;&nbsp; {product.title} de S/ {parseFloat(product.price).toFixed(2)} c/u
                 </li>
               ))}
             </ul>
-            <p className="font-bold">Tipo de Envio: {capitalize(savedShippingOption)}</p>
-            <p className="font-bold">Envio: S/ {parseFloat(totalShipping).toFixed(2)}</p>
-            <p className="font-bold">Total: S/ {parseFloat(totalAmount).toFixed(2)}</p>
+            <p>
+              <span className="font-bold">Tipo de Envio: </span>&nbsp;&nbsp;
+              <span>
+                {capitalize(savedShippingOption)} de S/ {parseFloat(totalShipping).toFixed(2)}
+              </span>
+            </p>
+            <p className="mt-5">
+              <span className="font-bold">Total: </span>&nbsp;&nbsp;<span>S/ {parseFloat(totalAmount).toFixed(2)}</span>
+            </p>
           </section>
 
           <p className="text-xl text-center md:text-left font-bold capitalize leading-8 break-words mb-5 mt-8">Dirección de Facturación</p>

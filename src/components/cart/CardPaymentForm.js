@@ -1,14 +1,22 @@
 "use client";
-import { generateCardToken } from "@/mockData";
 import { creditCardSchema } from "@/schemas/creditCardSchema";
+import { sendPostRequest } from "@/services";
 import { useFormik } from "formik";
 import React from "react";
 
-export default function CardPaymentForm({ totalAmount, globalUser, handleOnSubmitMercadoPago, customization }) {
+export default function CardPaymentForm({ handleOnSubmitMercadoPago }) {
+  function transformExpirationDate(expirationDate) {
+    const [month, year] = expirationDate.split("/").map(part => parseInt(part, 10));
+    return {
+      cardExpirationMonth: month,
+      cardExpirationYear: 2000 + year, // Assuming the year is in "YY" format and it's after 2000
+    };
+  }
+
   const formik = useFormik({
     initialValues: {
       cardNumber: "4009175332806176",
-      cardholderName: "BETATESTER",
+      cardholderName: "ALPHATESTER",
       expiration: "11/25",
       securityCode: "123",
       docNumber: "12345678",
@@ -16,16 +24,25 @@ export default function CardPaymentForm({ totalAmount, globalUser, handleOnSubmi
     validationSchema: creditCardSchema,
     onSubmit: async values => {
       try {
-        const tokenData = generateCardToken();
+        const { cardExpirationMonth, cardExpirationYear } = transformExpirationDate(values.expiration);
+        // TODO: THIS ASSUMES A DNI WILL ALWAYS BE USED
+        const docType = "DNI";
+        const cardData = {
+          cardNumber: values.cardNumber,
+          cardExpirationMonth,
+          cardExpirationYear,
+          cardholderName: values.cardholderName,
+          securityCode: values.securityCode,
+          docType: docType,
+          docNumber: values.docNumber,
+        };
+        const responseGenerateCardToken = await sendPostRequest({ endpoint: "orders/generate-card-token", body: cardData });
+        // TODO: THIS ASSUMES A TOKEN WILL ALWAYS BE CREATED
+        const cardToken = responseGenerateCardToken.data.token;
+
         handleOnSubmitMercadoPago({
-          ...values,
-          token: tokenData.id,
-          transactionAmount: totalAmount,
-          payerEmail: globalUser.email,
-          userId: globalUser.id,
-          installments: "1", // Default value
-          issuerId: "1", // Default value
-          docType: "DNI", // Default value
+          ...cardData,
+          token: cardToken,
         });
       } catch (error) {
         console.error("Error creating token:", error);
@@ -34,12 +51,12 @@ export default function CardPaymentForm({ totalAmount, globalUser, handleOnSubmi
   });
 
   return (
-    <form id="paymentForm" onSubmit={formik.handleSubmit} className="bg-white p-6 w-full max-w-[420px] md:min-w-[380px] mb-10 flex flex-col gap-3 ">
-      <h2 className="text-xl font-bold mb-4 text-center">Información de Pago</h2>
+    <form id="paymentForm" onSubmit={formik.handleSubmit} className="bg-white p-6 w-full max-w-[420px] md:min-w-[380px] mb-10 flex flex-col gap-3">
+      <h2 className="text-xl font-bold mb-4 text-center">Información de Pago (VISA)</h2>
 
       <div className="flex flex-col gap-3">
         <label htmlFor="cardNumber" className="mb-1 text-sm">
-          Número de tarjeta
+          Número de tarjeta Visa
         </label>
         <input
           type="text"
@@ -101,6 +118,22 @@ export default function CardPaymentForm({ totalAmount, globalUser, handleOnSubmi
           className={"w-full p-2 outline-none border border-[--color-form-border]"}
         />
         {formik.touched.cardholderName && formik.errors.cardholderName && <p className="text-red-500 mt-1 text-xs">{formik.errors.cardholderName}</p>}
+      </div>
+
+      <div className="flex flex-col">
+        <label htmlFor="docNumber" className="mb-1 text-sm">
+          Documento de Identidad (DNI)
+        </label>
+        <input
+          type="text"
+          id="docNumber"
+          name="docNumber"
+          value={formik.values.docNumber}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className={"w-full p-2 outline-none border border-[--color-form-border]"}
+        />
+        {formik.touched.docNumber && formik.errors.docNumber && <p className="text-red-500 mt-1 text-xs">{formik.errors.docNumber}</p>}
       </div>
 
       <button
