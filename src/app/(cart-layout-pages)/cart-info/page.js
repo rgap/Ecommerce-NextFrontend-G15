@@ -24,9 +24,6 @@ export default function CartInfo() {
   const [lastProductPath, setLastProductPath] = useState("/products");
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
-  // Debug mode variable
-  const debugMode = true;
-
   useEffect(() => {
     if (globalCart.length > 0) {
       const lastProduct = globalCart[globalCart.length - 1];
@@ -58,7 +55,7 @@ export default function CartInfo() {
       region: "",
       phoneNumber: "",
     },
-    validationSchema: debugMode ? null : basicSchema,
+    validationSchema: basicSchema,
     onSubmit,
   });
 
@@ -89,7 +86,7 @@ export default function CartInfo() {
 
   useEffect(() => {
     initializeFormData();
-  }, []);
+  }, [globalUser]);
 
   useEffect(() => {
     setValues({
@@ -159,7 +156,7 @@ export default function CartInfo() {
                         text="Continuar con Envio"
                         type="submit"
                         clickFunction={false}
-                        variant={Object.keys(errors).length > 0 && !debugMode ? "disabled" : "primary"}
+                        variant={Object.keys(errors).length > 0 ? "disabled" : "primary"}
                       />
                     </div>
                   </div>
