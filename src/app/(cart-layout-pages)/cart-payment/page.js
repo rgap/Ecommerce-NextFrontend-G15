@@ -170,6 +170,10 @@ export default function CartPayment() {
       };
       setCheckoutInfo(purchaseBody);
 
+      // Send emails
+      await sendPostRequest(bodyOrder, "orders/send-order-email-to-user");
+      await sendPostRequest(bodyOrder, "orders/send-order-email-to-admin");
+
       console.log("Before redirecting to /cart-message");
       // Redirect to the checkout success message page
       router.push("/cart-message");

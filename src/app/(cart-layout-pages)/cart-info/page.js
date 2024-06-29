@@ -66,25 +66,25 @@ export default function CartInfo() {
     };
   }
 
-  async function initializeFormData() {
-    if (globalUser) {
-      const responseGetByEmail = await sendPostRequest({ endpoint: "users/get-by-email", body: { email: globalUser.email } });
-      const foundUser = responseGetByEmail.data;
+  useEffect(() => {
+    async function initializeFormData() {
+      if (globalUser) {
+        const responseGetByEmail = await sendPostRequest({ endpoint: "users/get-by-email", body: { email: globalUser.email } });
+        const foundUser = responseGetByEmail.data;
 
-      if (foundUser) {
-        setPersonalData({
-          id: foundUser.id,
-          name: foundUser.name,
-          address: foundUser.address,
-          city: foundUser.city,
-          region: foundUser.region,
-          phoneNumber: foundUser.phoneNumber,
-        });
+        if (foundUser) {
+          setPersonalData({
+            id: foundUser.id,
+            name: foundUser.name,
+            address: foundUser.address,
+            city: foundUser.city,
+            region: foundUser.region,
+            phoneNumber: foundUser.phoneNumber,
+          });
+        }
       }
     }
-  }
 
-  useEffect(() => {
     initializeFormData();
   }, [globalUser]);
 
@@ -96,7 +96,7 @@ export default function CartInfo() {
       region: personalData.region,
       phoneNumber: personalData.phoneNumber,
     });
-  }, [personalData]);
+  }, [personalData, setValues]);
 
   return (
     <main className="lg:flex">
