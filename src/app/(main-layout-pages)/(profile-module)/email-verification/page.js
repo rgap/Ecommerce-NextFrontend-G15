@@ -1,5 +1,5 @@
 "use client";
-import sendGetRequest from "@/services/sendGetRequest";
+import { sendGetRequest } from "@/services";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
