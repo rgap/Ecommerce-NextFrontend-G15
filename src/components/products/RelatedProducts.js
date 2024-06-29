@@ -8,6 +8,7 @@ export default async function RelatedProducts({ product }) {
       title: product.title,
       excludeProductId: product.id,
     },
+    cache: "revalidate-12h",
   });
   const relatedProducts = responseRelatedProducts.data;
 
