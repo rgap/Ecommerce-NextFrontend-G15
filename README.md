@@ -46,6 +46,8 @@ src/
 │   │   │   │   └── page.js (Client-side)
 │   │   │   └── register/
 │   │   │       └── page.js (Client-side)
+│   │   ├── news/
+│   │   │   └── page.js (Client-side)
 │   │   ├── products/
 │   │   │   ├── [productSlug]/
 │   │   │   │   └── page.js (Server-side)
