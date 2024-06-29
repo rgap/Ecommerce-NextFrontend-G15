@@ -171,8 +171,8 @@ export default function CartPayment() {
       setCheckoutInfo(purchaseBody);
 
       // Send emails
-      await sendPostRequest(bodyOrder, "orders/send-order-email-to-user");
-      await sendPostRequest(bodyOrder, "orders/send-order-email-to-admin");
+      await sendPostRequest({ endpoint: "orders/send-order-email-to-user", body: bodyOrder });
+      await sendPostRequest({ endpoint: "orders/send-order-email-to-admin", body: bodyOrder });
 
       console.log("Before redirecting to /cart-message");
       // Redirect to the checkout success message page
