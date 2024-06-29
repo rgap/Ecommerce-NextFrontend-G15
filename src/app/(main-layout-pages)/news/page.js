@@ -85,6 +85,8 @@ function ProductFeatures() {
 
 // Formulario y CTA
 function EmailSignupForm() {
+  const debugMode = process.env.NEXT_PUBLIC_DEBUG_MODE;
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -119,7 +121,6 @@ function EmailSignupForm() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    const debugMode = true;
     if (debugMode) {
       setEmail("");
       setName("");

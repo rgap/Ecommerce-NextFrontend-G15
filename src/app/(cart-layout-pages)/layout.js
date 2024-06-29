@@ -1,4 +1,4 @@
-import { Logo } from "@/components/common";
+import { Logo } from "@/components";
 export default function CartLayout({ children }) {
   return (
     //

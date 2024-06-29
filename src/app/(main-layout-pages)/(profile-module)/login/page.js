@@ -1,6 +1,5 @@
 "use client";
-import TextField from "@/components/common/TextField";
-import { getLoginResult } from "@/mockData";
+import { TextField } from "@/components";
 import { sendPostRequest } from "@/services";
 import { useUserStore } from "@/store/useUserStore";
 import Image from "next/image";

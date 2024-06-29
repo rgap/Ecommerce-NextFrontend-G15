@@ -1,6 +1,6 @@
 "use client";
 /* eslint-disable react/prop-types */
-import { QuantityButton } from "@/components/cart";
+import { QuantityButton } from "@/components";
 import { useCartStore } from "@/store/useCartStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

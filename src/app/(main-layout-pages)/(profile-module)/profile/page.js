@@ -1,6 +1,6 @@
 "use client";
 /* eslint-disable react/prop-types */
-import EditableField from "@/components/EditableField";
+import { EditableField } from "@/components";
 import { sendPostRequest, sendPutRequest } from "@/services";
 import { useCartStore } from "@/store/useCartStore";
 import { useUserStore } from "@/store/useUserStore";

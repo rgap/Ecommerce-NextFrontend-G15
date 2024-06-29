@@ -1,6 +1,5 @@
 "use client";
-import { Breadcrumb, ProductShoppingCart } from "@/components/cart";
-import { Button } from "@/components/common";
+import { Breadcrumb, Button, ProductShoppingCart } from "@/components";
 import { basicSchema } from "@/schemas/basicSchema";
 import { sendPostRequest, sendPutRequest } from "@/services";
 import { useCartStore } from "@/store/useCartStore";
@@ -104,7 +103,7 @@ export default function CartInfo() {
 
   return (
     <main className="lg:flex">
-      <section className="cart-info-left lg:w-[55%] min-w-[590px]">
+      <section className="cart-info-left lg:w-[55%]">
         {!globalUser ? (
           <section className="flex justify-center h-[50%] items-center">
             <div className="flex flex-col items-center gap-2">

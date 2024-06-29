@@ -1,8 +1,15 @@
-import ProductCard from "@/components/products/ProductCard";
-import { getRelatedProducts } from "@/mockData";
+import { ProductCard } from "@/components";
+import { sendPostRequest } from "@/services";
 
-export default function RelatedProducts({ product }) {
-  const relatedProducts = getRelatedProducts(product.title, product.id, 4);
+export default async function RelatedProducts({ product }) {
+  const responseRelatedProducts = await sendPostRequest({
+    endpoint: "products/related/4",
+    body: {
+      title: product.title,
+      excludeProductId: product.id,
+    },
+  });
+  const relatedProducts = responseRelatedProducts.data;
 
   return (
     <section className="mb-6">

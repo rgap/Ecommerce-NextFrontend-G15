@@ -1,10 +1,9 @@
-import ConfirmationModal from "@/components/ConfirmationModal";
+import { ConfirmationModal } from "@/components";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 
-import BackgroundImageSlider from "@/components/BackgroundImageSlider";
-import ProductCard from "@/components/products/ProductCard";
+import { BackgroundImageSlider, ProductCard } from "@/components";
 import { sendGetRequest } from "@/services";
 
 // const ConfirmationModal = dynamic(() => import("@/components/ConfirmationModal"), { ssr: false });

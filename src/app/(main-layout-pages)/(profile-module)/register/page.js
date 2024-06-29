@@ -1,6 +1,6 @@
 "use client";
 // import { GoogleLoginButton, TextField } from "@/components/GoogleLoginButton";
-import TextField from "@/components/common/TextField";
+import { TextField } from "@/components";
 import { sendPostRequest } from "@/services";
 import { useUserStore } from "@/store/useUserStore"; // Import the Zustand store
 import Image from "next/image";

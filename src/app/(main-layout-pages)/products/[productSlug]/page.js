@@ -1,7 +1,4 @@
-import ProductActions from "@/components/products/ProductActions";
-import ProductCard from "@/components/products/ProductCard";
-import ProductImageSlider from "@/components/products/ProductImageSlider";
-import RelatedProducts from "@/components/products/RelatedProducts";
+import { ProductActions, ProductCard, ProductImageSlider, RelatedProducts } from "@/components";
 import { sendGetRequest } from "@/services";
 import Link from "next/link";
 import { notFound } from "next/navigation";

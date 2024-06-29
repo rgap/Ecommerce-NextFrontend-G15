@@ -1,6 +1,5 @@
 "use client";
-import { ProductShoppingCart, QuantityButton } from "@/components/cart";
-import { Button } from "@/components/common";
+import { Button, ProductShoppingCart, QuantityButton } from "@/components";
 import { useCartStore } from "@/store/useCartStore";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";

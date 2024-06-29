@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components";
 import { useCartStore } from "@/store/useCartStore";
 import { useUserStore } from "@/store/useUserStore";
 import Image from "next/image";
@@ -12,9 +13,11 @@ export default function CartMessage() {
   const router = useRouter();
 
   useEffect(() => {
-    // reset cart
-    useCartStore.getState().resetCart();
-  }, []);
+    if (!(checkoutInfo.orderId == "000")) {
+      // reset cart
+      useCartStore.getState().resetCart();
+    }
+  }, [checkoutInfo]);
 
   useEffect(() => {
     if (!globalUser && initialLoadComplete) {
@@ -25,7 +28,7 @@ export default function CartMessage() {
   }, [globalUser, router, initialLoadComplete]);
 
   return (
-    <main className="text-center flex-grow flex justify-center flex-col  items-center gap-10 bg-white mb-10 my-8">
+    <main className="text-center flex-grow flex justify-center flex-col  items-center gap-10 bg-white mb-20 mt-20 my-8 px-10">
       <Image
         className="w-[65px] h-[65px] mt-5 md:mt-0"
         src="https://raw.githubusercontent.com/rgap/Ecommerce-G15-ImageRepository/82306af9c3214a4e16f35b88166da045a8b7bc40/icons/payment-check-circle.svg"
@@ -52,6 +55,10 @@ export default function CartMessage() {
           height={20}
         />
         <p className="text-sm text-[#404040]"> + 51 123909090</p>
+      </div>
+
+      <div className="border flex w-[180px] h-[60px] justify-center items-center gap-1 flex-shrink-0">
+        <Button ruta="/" text="Volver al Inicio" type="" variant="primary" className="hover:cursor-pointer" />
       </div>
     </main>
   );

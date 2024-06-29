@@ -1,5 +1,5 @@
 "use client";
-import ProductCard from "@/components/products/ProductCard";
+import { ProductCard } from "@/components";
 import { sendGetRequest } from "@/services";
 import Link from "next/link";
 import { useEffect, useState } from "react";
