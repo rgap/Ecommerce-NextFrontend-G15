@@ -23,7 +23,7 @@ export default async function Home() {
       <section className="hero bg-[--color-bg]">
         <BackgroundImageSlider imageUrls={imageUrls}>
           <div className="flex justify-center items-center flex-col h-full gap-14">
-            <div className="bg-white bg-opacity-50 p-12 space-y-4">
+            <div className="bg-white bg-opacity-50 p-5 md:p-12 space-y-4">
               <div>
                 <p className="text-3xl font-bold md:text-4xl text-center tracking-wide">NUEVA COLECCION</p>
               </div>

@@ -13,7 +13,7 @@ export default function BackgroundImageSlider({ imageUrls, children }) {
 
   return (
     <div
-      className="bord h-[600px] bg-center bg-cover relative bg-no-repeat"
+      className="bord h-[400px] md:h-[520px] bg-center bg-cover relative bg-no-repeat"
       style={{
         backgroundImage: `url(${imageUrls[imageIndex]})`,
         transition: "background-image 1s ease-in-out",
