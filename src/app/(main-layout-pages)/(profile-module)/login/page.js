@@ -15,8 +15,8 @@ export default function Login() {
   const debugMode = process.env.NEXT_PUBLIC_DEBUG_MODE; // Set this based on your environment or a config
 
   const [values, setValues] = useState({
-    email: debugMode ? "beautipol.alpha.1@gmail.com" : "",
-    password: debugMode ? "a1234567" : "",
+    email: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({
@@ -28,6 +28,13 @@ export default function Login() {
     setValues({
       ...values,
       [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleAutoFillLogin = () => {
+    setValues({
+      email: "beautipol.alpha.1@gmail.com",
+      password: "a1234567",
     });
   };
 
@@ -123,6 +130,21 @@ export default function Login() {
             </Link>
           </div>
         </form>
+
+        {debugMode && (
+          <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+            <p className="text-sm text-gray-600 mb-3 text-center">
+              Modo de desarrollo - Autocompletar login
+            </p>
+            <button
+              type="button"
+              onClick={handleAutoFillLogin}
+              className="w-full flex items-center justify-center px-4 py-3 bg-gray-700 hover:bg-gray-800 text-white text-sm capitalize leading-normal transition-colors duration-200"
+            >
+              Rellenar campos de login
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );
